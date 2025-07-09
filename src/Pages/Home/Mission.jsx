@@ -11,7 +11,7 @@ const Mission = () => {
     infinite: true,
     speed: 500,
     slidesToShow: 3,
-    slidesToScroll: 3,
+    slidesToScroll: 1,
   };
   return (
     <section className="my-20">
@@ -35,7 +35,7 @@ const Mission = () => {
                   src="https://i.ibb.co/35DbMKR2/phlebotomist-8892-square310x310.jpg"
                   effect="blur"
                   placeholderSrc=""
-                  className="rounded-lg h-[250px] object-cover"
+                  className="rounded-lg h-[300px] object-cover"
                   width={"100%"}
                 />
                 <h3 className="text-xl text-slate-700"> Join The Mission</h3>
@@ -45,7 +45,7 @@ const Mission = () => {
                   src="https://i.ibb.co/60Psfcsd/pexels-rdne-6646778.jpg"
                   effect="blur"
                   placeholderSrc=""
-                  className="rounded-lg h-[250px] object-cover"
+                  className="rounded-lg h-[300px] object-cover"
                   width={"100%"}
                 />
                 <h3 className="text-xl text-slate-700">Save Lives Together</h3>
@@ -55,7 +55,7 @@ const Mission = () => {
                   src="https://i.ibb.co/CKr7xrS7/pexels-francis-agyemang-opoku-89810425-10794860.jpg"
                   effect="blur"
                   placeholderSrc=""
-                  className="rounded-lg h-[250px] object-cover"
+                  className="rounded-lg h-[300px] object-cover"
                   width={"100%"}
                 />
                 <h3 className="text-xl text-slate-700">Connect With Donors</h3>
@@ -65,26 +65,12 @@ const Mission = () => {
                   src="https://i.ibb.co/dwvY07WF/pexels-lazymonkey-1164531.jpg"
                   effect="blur"
                   placeholderSrc=""
-                  className="rounded-lg h-[250px] object-cover"
+                  className="rounded-lg h-[300px] object-cover"
                   width={"100%"}
                 />
                 <h3 className="text-xl text-slate-700">Support Every Drop</h3>
               </div>
             </Slider>
-            {/* <Slider {...settings}>
-              <div className="w-full h-[250px] ">
-               
-              </div>
-              <div className="w-full h-[250px] ">
-               
-              </div>
-              <div className="w-full h-[250px] ">
-                
-              </div>
-              <div className="w-full h-[250px] ">
-               
-              </div>
-            </Slider> */}
           </div>
         </div>
       </div>

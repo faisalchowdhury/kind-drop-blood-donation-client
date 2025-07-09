@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router";
 import Logo from "../Components/Utilities/Logo";
-
+import LogoLight from "../assets/Logos/logo-light.png";
 const Header = () => {
   const menu = (
     <>
@@ -16,7 +16,7 @@ const Header = () => {
 
   return (
     <div className="sticky top-0 z-20 bg-white border-b border-[#ff202036]">
-      <div className="navbar bg-base-100 max-w-7xl mx-auto">
+      <div className="navbar bg-base-100 max-w-[1400px] mx-auto">
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -42,7 +42,7 @@ const Header = () => {
             </ul>
           </div>
 
-          <Logo></Logo>
+          <Logo logo={LogoLight}></Logo>
         </div>
 
         <div className="navbar-end hidden lg:flex">

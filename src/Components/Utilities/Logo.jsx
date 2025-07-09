@@ -1,11 +1,11 @@
 import React from "react";
-import logoLight from "../../assets/Logos/logo-light.png";
+
 import { Link } from "react-router";
-const Logo = () => {
+const Logo = ({ logo }) => {
   return (
     <div>
       <Link>
-        <img className="w-[150px]" src={logoLight} alt="" />
+        <img className="w-[150px]" src={logo} alt="" />
       </Link>
     </div>
   );
