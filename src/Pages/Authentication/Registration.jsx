@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Link } from "react-router";
 import Lottie from "lottie-react";
 import registerAnimation from "../../assets/Lottie/registration.json"; 
@@ -11,14 +11,27 @@ export default function Registration() {
   
   const {register , handleSubmit , formState : {errors} ,watch} = useForm();
 
-  const districtCheck = watch('district')
-  console.log(districtCheck)
-  const {data , isError ,isLoading} = useQuery({
+  const districtCheck = watch('district');
+  
+  const {data } = useQuery({
     queryKey : ['district'],
     queryFn : () => axios.get('/src/Data/district.json')
   })
+
+  const {data : upazilaData } = useQuery({
+    queryKey : ['upazila'],
+    queryFn : () => axios.get('/src/Data/upazila.json')
+  })
    
-  const districts = data?.data[2]?.data
+
+  const districts = data?.data[2]?.data;
+  const upazilas = upazilaData?.data[2]?.data;
+
+  
+
+const upazilaByDistrict = upazilas.filter(upazila => upazila?.district_id == districtCheck);
+
+
   
   const submitRegistration = (data) => {
     console.log(data)
@@ -59,8 +72,8 @@ export default function Registration() {
             {errors?.blood_group && errors?.blood_group.type === 'required' ? <p className="text-accent">Select your blood group </p> : null}
             </div>
             <div>
-                <select value=""{...register('district' , {required: true})}  className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent w-full">
-              <option value="" disabled>District</option>
+                <select {...register('district' , {required: true})}  className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent w-full">
+              <option  disabled>District</option>
               {/* Dynamically map district options here */}
               {
                 districts?.map(district => <option key={district?.id}  value={district?.id} >{district?.name}</option>)
@@ -69,9 +82,11 @@ export default function Registration() {
               {errors?.district && errors?.district.type === 'required' ? <p className="text-accent">Name field is require </p> : null}
             </div>
             <div>
-                <select value="" {...register('upazila' , {required: true})}  className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent w-full">
-              <option value="">Upazila</option>
-              {/* Dynamically map upazila options here */}
+                <select  {...register('upazila' , {required: true})}  className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent w-full">
+              <option >Upazila</option>
+              {
+                upazilaByDistrict.map(upazila => <option key={upazila.id} value={upazila.name}>{upazila.name}</option>)
+              }
             </select>
             {errors?.upazila && errors?.upazila?.type === 'required' ? <p className="text-accent">Name field is require </p> : null}
             </div>
