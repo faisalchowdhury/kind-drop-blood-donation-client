@@ -16,7 +16,10 @@ export default function Footer() {
           <Logo logo={LogoDark}></Logo>
           <p className="text-sm text-gray-200">
             KindDrop connects donors with those in need, making blood donation
-            accessible and community-driven to save lives.
+            accessible and community-driven to save lives. We strive to build a
+            compassionate society where everyone contributes to saving lives
+            through the simple act of blood donation, ensuring no one faces
+            critical shortages in emergencies
           </p>
         </div>
 
