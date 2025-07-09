@@ -13,8 +13,9 @@ const Header = () => {
       </li>
     </>
   );
+
   return (
-    <div className="sticky top-0">
+    <div className="sticky top-0 z-20 bg-white border-b border-[#ff202036]">
       <div className="navbar bg-base-100 max-w-7xl mx-auto">
         <div className="navbar-start">
           <div className="dropdown">
@@ -46,6 +47,9 @@ const Header = () => {
 
         <div className="navbar-end hidden lg:flex">
           <ul className="menu menu-horizontal px-1 text-primary">{menu}</ul>
+          <button className="btn bg-accent hover:bg-primary duration-500 text-white border-none rounded-full ">
+            Join as a donor
+          </button>
         </div>
       </div>
     </div>

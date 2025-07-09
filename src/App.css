@@ -15,3 +15,21 @@
   font-weight: 400;
   font-style: normal;
 }
+/* Slick Slider */
+
+.slider-container {
+  width: 90% !important;
+  margin: auto;
+}
+.slick-list {
+  margin: 0 -5px; /* Negative of the above to prevent overflow */
+}
+
+.slick-prev::before {
+  color: black !important;
+  font-size: 25px !important;
+}
+.slick-next::before {
+  color: black !important;
+  font-size: 25px !important;
+}
