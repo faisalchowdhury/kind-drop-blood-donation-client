@@ -2,10 +2,27 @@ import { useState } from "react";
 import { Link } from "react-router";
 import Lottie from "lottie-react";
 import registerAnimation from "../../assets/Lottie/registration.json"; 
-
+import { useForm } from "react-hook-form";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 export default function Registration() {
   const [avatarUrl, setAvatarUrl] = useState("");
+ 
+  
+  const {register , handleSubmit , formState : {errors} ,watch} = useForm();
 
+  const districtCheck = watch('district')
+  console.log(districtCheck)
+  const {data , isError ,isLoading} = useQuery({
+    queryKey : ['district'],
+    queryFn : () => axios.get('/src/Data/district.json')
+  })
+   
+  const districts = data?.data[2]?.data
+  
+  const submitRegistration = (data) => {
+    console.log(data)
+  }
   return (
     <div className="min-h-screen flex flex-col md:flex-row">
 
@@ -13,31 +30,60 @@ export default function Registration() {
       <div className="md:w-1/2 w-full flex items-center justify-center p-8 bg-white">
         <div className="w-full max-w-2xl">
           <h2 className="text-2xl font-bold mb-6 text-primary">Create Your KindDrop Account</h2>
-          <form className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <input type="text" placeholder="Name" className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent" />
-            <input type="email" placeholder="Email" className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent" />
-            <input type="text" placeholder="Avatar URL (ImageBB)" className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent col-span-1 md:col-span-2" />
-            <select className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent">
-              <option>Blood Group</option>
-              <option>A+</option>
-              <option>A-</option>
-              <option>B+</option>
-              <option>B-</option>
-              <option>AB+</option>
-              <option>AB-</option>
-              <option>O+</option>
-              <option>O-</option>
+          <form onSubmit={handleSubmit(submitRegistration)} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+           <div>
+             <input {...register('name' , {required: true})} type="text" placeholder="Name" className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent w-full" />
+            {errors?.name && errors?.name.type === 'required' ? <p className="text-accent">Name field is require </p> : null}
+           </div>
+
+            <div>
+                <input {...register('email' , {required: true})}  type="email" placeholder="Email" className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent w-full" />
+                {errors?.email && errors?.email.type === 'required' ? <p className="text-accent">Enter a valid email </p> : null}
+                </div>
+                <div>
+            <input {...register('image' , {required: true})}   type="file" placeholder="Upload image" className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent w-full" />
+            {errors?.image && errors?.image.type === 'required' ? <p className="text-accent">Image field is require </p> : null}
+            </div>
+            <div>
+                <select value="" {...register('blood_group' , {required: true})}  className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent w-full">
+              <option value="">Blood Group</option>
+              <option value="A+">A+</option>
+              <option value="A-">A-</option>
+              <option value="B+">B+</option>
+              <option value="B-">B-</option>
+              <option value="AB+">AB+</option>
+              <option value="AB-">AB-</option>
+              <option value="O+">O+</option>
+              <option value="O-">O-</option>
             </select>
-            <select className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent">
-              <option>District</option>
+            {errors?.blood_group && errors?.blood_group.type === 'required' ? <p className="text-accent">Select your blood group </p> : null}
+            </div>
+            <div>
+                <select value=""{...register('district' , {required: true})}  className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent w-full">
+              <option value="" disabled>District</option>
               {/* Dynamically map district options here */}
+              {
+                districts?.map(district => <option key={district?.id}  value={district?.id} >{district?.name}</option>)
+              }
             </select>
-            <select className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent">
-              <option>Upazila</option>
+              {errors?.district && errors?.district.type === 'required' ? <p className="text-accent">Name field is require </p> : null}
+            </div>
+            <div>
+                <select value="" {...register('upazila' , {required: true})}  className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent w-full">
+              <option value="">Upazila</option>
               {/* Dynamically map upazila options here */}
             </select>
-            <input type="password" placeholder="Password" className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent" />
-            <input type="password" placeholder="Confirm Password" className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent" />
+            {errors?.upazila && errors?.upazila?.type === 'required' ? <p className="text-accent">Name field is require </p> : null}
+            </div>
+           <div>
+             <input {...register('password' , {required: true})}  type="password" placeholder="Password" className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent w-full" />
+
+             {errors?.password && errors?.password.type === 'required' ? <p className="text-accent">Name field is require </p> : null}
+             </div>
+             <div>
+            <input {...register('confirm_password' , {required: true})}  type="password" placeholder="Confirm Password" className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent w-full" />
+            {errors?.confirm_password && errors?.confirm_password.type === 'required' ? <p className="text-accent">Name field is require </p> : null}
+           </div>
 
             <button type="submit" className="col-span-1 md:col-span-2 bg-accent hover:bg-accent/90 text-white font-semibold py-2 rounded transition mt-2">
               Register

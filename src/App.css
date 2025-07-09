@@ -26,10 +26,10 @@
 }
 
 .slick-prev::before {
-  color: black !important;
+  color: #060A31 !important;
   font-size: 0px !important;
 }
 .slick-next::before {
-  color: black !important;
+  color: #060A31 !important;
   font-size: 50px !important;
 }
