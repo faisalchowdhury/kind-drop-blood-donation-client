@@ -4,6 +4,8 @@ import MainLayout from "../Layouts/MainLayout";
 import Home from "../Pages/Home/Home";
 import Login from "../Pages/Authentication/Login";
 import Registration from "../Pages/Authentication/Registration";
+import NotFound from "../Pages/404/NotFound";
+import DashboardLayout from "../Layouts/DashboardLayout";
 
 const Router = () => {
   const router = createBrowserRouter([
@@ -16,15 +18,23 @@ const Router = () => {
           Component: Home,
         },
         {
-          path : '/login',
-          Component : Login
+          path: "/login",
+          Component: Login,
         },
         {
-          path : '/registration',
-          Component : Registration
-        }
-        
+          path: "/registration",
+          Component: Registration,
+        },
       ],
+    },
+    {
+      path: "*",
+      Component: NotFound,
+    },
+    //Dashboard
+    {
+      path: "/dashboard",
+      Component: DashboardLayout,
     },
   ]);
 
