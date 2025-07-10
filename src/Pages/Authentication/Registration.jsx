@@ -59,7 +59,7 @@ export default function Registration() {
       `https://api.cloudinary.com/v1_1/dtvrjavzf/image/upload`,
       formData
     );
-    console.log(imageInfo.data);
+
     return imageInfo.data;
   };
 
@@ -67,15 +67,24 @@ export default function Registration() {
   const submitRegistration = async (data) => {
     const { name, email, password } = data;
     const imageInfo = await uploadToImgbb(selectedFile);
-
+    const userInformationDb = {
+      name,
+      email,
+      password,
+      creation_date: new Date().toISOString(),
+      district_id: data.district,
+      upazila: data.upazila,
+      status: "active",
+      role: "donor",
+    };
     createAccount(email, password)
       .then((result) => {
         if (result?.user) {
           updateUserProfile(name, imageInfo.secure_url)
             .then(() => {
-              // axiosBase
-              //   .post("/add-user", data)
-              //   .then((res) => console.log(res.data));
+              axiosBase
+                .post("/add-user", userInformationDb)
+                .then((res) => console.log(res.data));
               Swal.fire({
                 position: "center",
                 icon: "success",
