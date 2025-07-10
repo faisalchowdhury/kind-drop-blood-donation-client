@@ -2,6 +2,7 @@ import React from "react";
 import { NavLink } from "react-router";
 import Logo from "../Components/Utilities/Logo";
 import LogoLight from "../assets/Logos/logo-light.png";
+
 const Header = () => {
   const menu = (
     <>

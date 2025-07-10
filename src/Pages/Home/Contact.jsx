@@ -29,13 +29,13 @@ export default function Contact() {
       </div>
 
       {/* Right Side - Contact Form */}
-      <form className="bg-white p-8 rounded-xl shadow-lg space-y-4">
+      <form className="bg-white p-8 rounded shadow-lg space-y-4">
         <div>
           <label className="block text-gray-700 mb-1">Name</label>
           <input
             type="text"
             placeholder="Your name"
-            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-primary"
+            className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:border-primary"
           />
         </div>
         <div>
@@ -43,7 +43,7 @@ export default function Contact() {
           <input
             type="email"
             placeholder="you@example.com"
-            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-primary"
+            className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:border-primary"
           />
         </div>
         <div>
@@ -51,7 +51,7 @@ export default function Contact() {
           <input
             type="text"
             placeholder="Subject"
-            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-primary"
+            className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:border-primary"
           />
         </div>
         <div>
@@ -59,11 +59,11 @@ export default function Contact() {
           <textarea
             placeholder="Your message"
             rows="4"
-            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-primary"></textarea>
+            className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:border-primary"></textarea>
         </div>
         <button
           type="submit"
-          className="w-full bg-primary text-white rounded-lg px-4 py-2 hover:bg-primary-dark transition">
+          className="w-full bg-primary text-white rounded px-4 py-2 hover:bg-primary-dark transition">
           Send Message
         </button>
       </form>
