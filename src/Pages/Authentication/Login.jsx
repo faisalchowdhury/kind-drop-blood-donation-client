@@ -1,8 +1,22 @@
 import { Link } from "react-router";
 import Lottie from "lottie-react";
 import loginAnimation from "../../assets/Lottie/login.json";
+import useAuth from "../../Hooks/useAuth";
+import { useForm } from "react-hook-form";
 
 export default function Login() {
+  const { userLogin } = useAuth();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const loginUserAuthentication = (data) => {
+    userLogin(data?.email, data?.password)
+      .then((result) => console.log(result))
+      .catch((err) => console.log(err));
+  };
+
   return (
     <div className="min-h-screen flex flex-col md:flex-row">
       {/* Left Side: Lottie Animation */}
@@ -18,7 +32,9 @@ export default function Login() {
           <h2 className="text-2xl font-bold mb-6 text-primary">
             Login to KindDrop
           </h2>
-          <form className="space-y-4">
+          <form
+            onSubmit={handleSubmit(loginUserAuthentication)}
+            className="space-y-4">
             <div>
               <label
                 htmlFor="email"
@@ -26,11 +42,14 @@ export default function Login() {
                 Email
               </label>
               <input
+                {...register("email", { required: true })}
                 type="email"
-                id="email"
                 className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent"
                 placeholder="you@example.com"
               />
+              {errors.email && errors.emial.type === "required" ? (
+                <p className="text-accent">Email field is require </p>
+              ) : null}
             </div>
             <div>
               <label
@@ -39,11 +58,15 @@ export default function Login() {
                 Password
               </label>
               <input
+                {...register("password", { required: true })}
                 type="password"
                 id="password"
                 className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent"
                 placeholder="Your password"
               />
+              {errors.password && errors.password.type === "required" ? (
+                <p className="text-accent">Please enter your password</p>
+              ) : null}
             </div>
             <button
               type="submit"

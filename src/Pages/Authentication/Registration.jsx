@@ -154,7 +154,7 @@ export default function Registration() {
               <select
                 {...register("district", { required: true })}
                 className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent w-full">
-                <option disabled>District</option>
+                <option>District</option>
                 {/* Dynamically map district options here */}
                 {districts?.map((district) => (
                   <option key={district?.id} value={district?.id}>
