@@ -5,7 +5,8 @@ import useAuth from "../../Hooks/useAuth";
 import { useForm } from "react-hook-form";
 
 export default function Login() {
-  const { userLogin } = useAuth();
+  const { userLogin, user } = useAuth();
+  console.log(user);
   const {
     register,
     handleSubmit,

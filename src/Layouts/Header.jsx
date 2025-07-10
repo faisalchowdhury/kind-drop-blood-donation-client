@@ -2,8 +2,15 @@ import React from "react";
 import { NavLink } from "react-router";
 import Logo from "../Components/Utilities/Logo";
 import LogoLight from "../assets/Logos/logo-light.png";
+import useAuth from "../Hooks/useAuth";
 
 const Header = () => {
+  const { signOutUser } = useAuth();
+  const logoutUser = () => {
+    signOutUser()
+      .then(() => console.log("Logout"))
+      .catch((err) => console.log(err));
+  };
   const menu = (
     <>
       <li>
@@ -46,10 +53,15 @@ const Header = () => {
           <Logo logo={LogoLight}></Logo>
         </div>
 
-        <div className="navbar-end hidden lg:flex">
+        <div className="navbar-end hidden lg:flex space-x-2">
           <ul className="menu menu-horizontal px-1 text-primary">{menu}</ul>
           <button className="btn bg-accent hover:bg-primary duration-500 text-white border-none rounded-full ">
             Join as a donor
+          </button>
+          <button
+            onClick={logoutUser}
+            className="btn bg-primary hover:bg-accent duration-500 text-white border-none rounded-full ">
+            Logout
           </button>
         </div>
       </div>
