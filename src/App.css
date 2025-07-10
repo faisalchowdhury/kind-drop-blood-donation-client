@@ -22,14 +22,14 @@
   margin: auto;
 }
 .slick-list {
-  margin: 0 -5px; /* Negative of the above to prevent overflow */
+  margin: 0 -5px;
 }
 
 .slick-prev::before {
-  color: #060A31 !important;
+  color: #060a31 !important;
   font-size: 0px !important;
 }
 .slick-next::before {
-  color: #060A31 !important;
+  color: #060a31 !important;
   font-size: 50px !important;
 }

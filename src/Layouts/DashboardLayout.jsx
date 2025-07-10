@@ -3,6 +3,7 @@ import { Link, Outlet } from "react-router";
 import { FiMenu, FiX, FiHome, FiUser, FiSettings } from "react-icons/fi";
 import Logo from "../Components/Utilities/Logo";
 import logoLight from "../assets/Logos/logo-light.png";
+import { FaUsersGear } from "react-icons/fa6";
 export default function DashboardLayout() {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -16,6 +17,11 @@ export default function DashboardLayout() {
       name: "Profile",
       path: "/dashboard/profile",
       icon: <FiUser className="w-5 h-5 mr-2" />,
+    },
+    {
+      name: "Users",
+      path: "/dashboard/users",
+      icon: <FaUsersGear className="w-5 h-5 mr-2" />,
     },
     {
       name: "Settings",

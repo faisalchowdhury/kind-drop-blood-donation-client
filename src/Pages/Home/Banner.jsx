@@ -11,7 +11,6 @@ const Banner = () => {
         <motion.div
           initial={{ y: 300, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          opacity
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="relative z-10 flex items-center h-full max-w-[60%] px-10">
           <div className="space-y-3">

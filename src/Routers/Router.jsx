@@ -6,6 +6,10 @@ import Login from "../Pages/Authentication/Login";
 import Registration from "../Pages/Authentication/Registration";
 import NotFound from "../Pages/404/NotFound";
 import DashboardLayout from "../Layouts/DashboardLayout";
+import Loading from "../Components/Utilities/Loading";
+import PrivateRoute from "../PrivateRoutes/PrivateRoute";
+import Dashboard from "../Dashboard/Dashboard";
+import Users from "../Dashboard/Users";
 
 const Router = () => {
   const router = createBrowserRouter([
@@ -31,10 +35,29 @@ const Router = () => {
       path: "*",
       Component: NotFound,
     },
+
     //Dashboard
     {
       path: "/dashboard",
-      Component: DashboardLayout,
+      element: (
+        <PrivateRoute>
+          <DashboardLayout></DashboardLayout>
+        </PrivateRoute>
+      ),
+      children: [
+        {
+          index: true,
+          element: (
+            <PrivateRoute>
+              <Dashboard></Dashboard>
+            </PrivateRoute>
+          ),
+        },
+        {
+          path: "/dashboard/users",
+          Component: Users,
+        },
+      ],
     },
   ]);
 

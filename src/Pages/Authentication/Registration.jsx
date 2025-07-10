@@ -71,11 +71,13 @@ export default function Registration() {
       name,
       email,
       password,
-      creation_date: new Date().toISOString(),
       district_id: data.district,
       upazila: data.upazila,
+      image_url: imageInfo.secure_url,
+      blood_group: data.blood_group,
       status: "active",
       role: "donor",
+      creation_date: new Date().toISOString(),
     };
     createAccount(email, password)
       .then((result) => {
