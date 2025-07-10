@@ -7,10 +7,12 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import useAuth from "../../Hooks/useAuth";
 import Swal from "sweetalert2";
+import useAxiosBase from "../../Hooks/useAxiosBase";
 export default function Registration() {
   const { createAccount, updateUserProfile } = useAuth();
   const [currentDistrict, setCurrentDistrict] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
+  const axiosBase = useAxiosBase();
   const {
     register,
     handleSubmit,
@@ -34,7 +36,7 @@ export default function Registration() {
   const upazilas = upazilaData?.data[2]?.data;
   // Load Upazila by District
   useEffect(() => {
-    if (districtCheck) {
+    if (districtCheck && upazilas) {
       const upazilaByDistrict = upazilas.filter(
         (upazila) => upazila?.district_id == districtCheck
       );
@@ -51,14 +53,14 @@ export default function Registration() {
   // handle imagebb upload
   const uploadToImgbb = async (imageFile) => {
     const formData = new FormData();
-    formData.append("image", imageFile);
-
+    formData.append("file", imageFile);
+    formData.append("upload_preset", "unsigned_preset");
     const imageInfo = await axios.post(
-      `https://api.imgbb.com/1/upload?key=28979e91b0e80e25e0da4ca71083bb93`,
+      `https://api.cloudinary.com/v1_1/dtvrjavzf/image/upload`,
       formData
     );
-
-    return imageInfo.data.data;
+    console.log(imageInfo.data);
+    return imageInfo.data;
   };
 
   // handle registration submit
@@ -69,8 +71,11 @@ export default function Registration() {
     createAccount(email, password)
       .then((result) => {
         if (result?.user) {
-          updateUserProfile(name, imageInfo.display_url)
+          updateUserProfile(name, imageInfo.secure_url)
             .then(() => {
+              // axiosBase
+              //   .post("/add-user", data)
+              //   .then((res) => console.log(res.data));
               Swal.fire({
                 position: "center",
                 icon: "success",
