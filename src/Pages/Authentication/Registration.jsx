@@ -50,8 +50,8 @@ export default function Registration() {
     const file = e.target.files[0];
     setSelectedFile(file);
   };
-  // handle imagebb upload
-  const uploadToImgbb = async (imageFile) => {
+  // handle Cloudinary upload
+  const handleUploadToCloudinary = async (imageFile) => {
     const formData = new FormData();
     formData.append("file", imageFile);
     formData.append("upload_preset", "unsigned_preset");
@@ -66,7 +66,7 @@ export default function Registration() {
   // handle registration submit
   const submitRegistration = async (data) => {
     const { name, email, password } = data;
-    const imageInfo = await uploadToImgbb(selectedFile);
+    const imageInfo = await handleUploadToCloudinary(selectedFile);
     const userInformationDb = {
       name,
       email,

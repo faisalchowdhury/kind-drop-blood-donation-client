@@ -1,15 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { FaEdit, FaSave } from "react-icons/fa";
 import useAuth from "../Hooks/useAuth";
 import useAxiosBase from "../Hooks/useAxiosBase";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 export default function Profile() {
   const { user } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const axiosBase = useAxiosBase();
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [currentDistrict, setCurrentDistrict] = useState([]);
 
   // Fetch user data (replace with your actual user fetching logic)
   const { data: userData = [], refetch } = useQuery({
@@ -19,35 +22,121 @@ export default function Profile() {
       return profileData.data;
     },
   });
+  // Use form hook
+  const { register, handleSubmit, reset, watch } = useForm({
+    defaultValues: userData,
+  });
+  const districtCheck = watch("district");
   // Get the district name by district_id
 
-  const { data } = useQuery({
+  const { data = [] } = useQuery({
     queryKey: ["districts"],
     queryFn: () =>
       axios.get(`/src/Data/district.json`).then((res) => res?.data[2]?.data),
   });
 
-  if (data) {
-    const districtName = data.find((dis) => dis.id == userData.district_id);
-  }
-  console.log(districtName);
-  const { register, handleSubmit, reset } = useForm({
-    defaultValues: userData,
-  });
+  const districtName = data.find((dis) => dis.id == userData.district_id);
 
-  // Update user data mutation
-  const mutation = useMutation({
-    mutationFn: (updatedData) =>
-      axiosBase.put("/profile-update?email", updatedData),
-    onSuccess: () => {
-      setIsEditing(false);
-      refetch();
+  // Load Upazila
+  const { data: upazilaData = [], isLoading } = useQuery({
+    queryKey: ["upazila"],
+    queryFn: async () => {
+      const upazilaData = await axios.get("/src/Data/upazila.json");
+      return upazilaData?.data[2]?.data;
     },
   });
 
-  const onSubmit = (data) => {
-    mutation.mutate(data);
+  // Load Upazila by District
+  useEffect(() => {
+    if (upazilaData.length > 0) {
+      const upazilaByDistrict = upazilaData.filter(
+        (upazila) => upazila?.district_id == districtCheck
+      );
+      setCurrentDistrict(upazilaByDistrict);
+    }
+  }, [districtCheck]);
+
+  //   Image Upload
+  const handleFileUpload = (e) => {
+    const formData = e.target.files[0];
+    setSelectedFile(formData);
   };
+
+  //   Upload To cloudinary
+
+  const handleUploadToCloudinary = async (imageFile) => {
+    const formData = new FormData();
+
+    formData.append("file", imageFile);
+    formData.append("upload_preset", "unsigned_preset");
+    const imageInfo = await axios.post(
+      `https://api.cloudinary.com/v1_1/dtvrjavzf/image/upload`,
+      formData
+    );
+
+    return imageInfo?.data;
+  };
+
+  const submitUpdateProfile = async (data) => {
+    let image_url = userData.image_url;
+    console.log(selectedFile);
+    if (selectedFile) {
+      const image_res = await handleUploadToCloudinary(selectedFile);
+      image_url = image_res.secure_url;
+    }
+
+    const dataToUpdate = {
+      name: data.name,
+      district_id: data.district,
+      upazila: data.upazila,
+      blood_group: data.blood_group,
+      image_url,
+    };
+    mutation.mutate(dataToUpdate);
+  };
+
+  const mutation = useMutation({
+    mutationFn: (updatedData) => {
+      return axiosBase.patch(
+        `/update-user?email=${userData.email}`,
+        updatedData
+      );
+    },
+    onSuccess: () => {
+      setIsEditing(false);
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Your profile updated successfully",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      refetch();
+    },
+    onError: () => {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Something went wrong",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    },
+  });
+
+  //   Update user data mutation
+  //   const mutation = useMutation({
+  //     mutationFn: (updatedData) =>
+  //       axiosBase.put("/profile-update?email", updatedData),
+  //     onSuccess: () => {
+  //       setIsEditing(false);
+  //       refetch();
+  //     },
+  //   });
+  //   console.log(userData.blood_group);
+  //   const onSubmit = (data) => {
+  //     mutation.mutate(data);
+  //   };
 
   //   // Sync form with fetched user data
   //   if (userData) {
@@ -59,13 +148,7 @@ export default function Profile() {
       <div className="max-w-full mx-auto  p-6 bg-white rounded shadow">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold text-primary">My Profile</h2>
-          {isEditing ? (
-            <button
-              onClick={handleSubmit(onSubmit)}
-              className="flex items-center gap-2 bg-accent hover:bg-accent/90 text-white px-3 py-1 rounded">
-              <FaSave /> Save
-            </button>
-          ) : (
+          {!isEditing && (
             <button
               onClick={() => setIsEditing(true)}
               className="flex items-center gap-2 bg-accent hover:bg-accent/90 text-white px-3 py-1 rounded">
@@ -74,7 +157,9 @@ export default function Profile() {
           )}
         </div>
 
-        <form className="grid grid-cols-1 gap-4">
+        <form
+          onSubmit={handleSubmit(submitUpdateProfile)}
+          className="grid grid-cols-1 gap-4">
           <div className="relative w-32 h-32 rounded-full overflow-hidden ">
             {userData.image_url ? (
               <img
@@ -91,8 +176,8 @@ export default function Profile() {
               <input
                 type="file"
                 accept="image/*"
-                {...register("avatar")}
-                onChange={""}
+                {...register("image")}
+                onChange={handleFileUpload}
                 className="absolute inset-0 opacity-0 cursor-pointer"
               />
             )}
@@ -107,7 +192,6 @@ export default function Profile() {
               defaultValue={userData?.name}
             />
           </div>
-
           <div>
             <label className="block mb-1 text-sm text-gray-700">Email</label>
             <input
@@ -118,54 +202,82 @@ export default function Profile() {
               defaultValue={userData?.email}
             />
           </div>
-
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block mb-1 text-sm text-gray-700">
                 District
               </label>
-              <input
-                {...register("district")}
-                disabled={!isEditing}
-                type="text"
-                className="border border-gray-300 rounded px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-accent"
-                defaultValue={userData?.district_id}
-              />
+
+              {userData.district_id && (
+                <select
+                  defaultValue={userData?.district_id}
+                  {...register("district")}
+                  disabled={!isEditing}
+                  className="border border-gray-300 rounded px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-accent">
+                  {data.map((dis) => (
+                    <option key={dis.id} value={dis.id}>
+                      {dis.name}
+                    </option>
+                  ))}
+                </select>
+              )}
             </div>
 
             <div>
               <label className="block mb-1 text-sm text-gray-700">
                 Upazila
               </label>
-              <input
-                {...register("upazila")}
-                disabled={!isEditing}
-                type="text"
-                className="border border-gray-300 rounded px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-accent"
-                defaultValue={userData?.upazila}
-              />
+              {userData?.upazila && (
+                <select
+                  defaultValue={userData?.upazila}
+                  disabled={!isEditing}
+                  {...register("upazila")}
+                  className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent w-full">
+                  {!isEditing ? (
+                    <option value={userData?.upazila}>
+                      {userData?.upazila}
+                    </option>
+                  ) : (
+                    currentDistrict &&
+                    currentDistrict.map((upazila) => (
+                      <option key={upazila.id} value={upazila.name}>
+                        {upazila.name}
+                      </option>
+                    ))
+                  )}
+                </select>
+              )}
             </div>
           </div>
-
           <div>
             <label className="block mb-1 text-sm text-gray-700">
               Blood Group
             </label>
-            <select
-              disabled={!isEditing}
-              defaultValue={userData.blood_group}
-              {...register("blood_group", { required: true })}
-              className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent w-full">
-              <option value="A+">A+</option>
-              <option value="A-">A-</option>
-              <option value="B+">B+</option>
-              <option value="B-">B-</option>
-              <option value="AB+">AB+</option>
-              <option value="AB-">AB-</option>
-              <option value="O+">O+</option>
-              <option value="O-">O-</option>
-            </select>
+            {
+              <select
+                disabled={!isEditing}
+                defaultValue={userData?.blood_group}
+                {...register("blood_group", { required: true })}
+                className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent w-full">
+                <option value="A+">A+</option>
+                <option value="A-">A-</option>
+                <option value="B+">B+</option>
+                <option value="B-">B-</option>
+                <option value="AB+">AB+</option>
+                <option value="AB-">AB-</option>
+                <option value="O+">O+</option>
+                <option value="O-">O-</option>
+              </select>
+            }
           </div>
+
+          {isEditing && (
+            <button
+              type="submit"
+              className="flex items-center gap-2 bg-primary hover:bg-primary/90 text-white px-3 py-1 rounded">
+              <FaSave /> Save
+            </button>
+          )}
         </form>
       </div>
     </>
