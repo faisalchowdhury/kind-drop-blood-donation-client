@@ -10,6 +10,7 @@ import Loading from "../Components/Utilities/Loading";
 import PrivateRoute from "../PrivateRoutes/PrivateRoute";
 import Dashboard from "../Dashboard/Dashboard";
 import Users from "../Dashboard/Users";
+import Profile from "../Dashboard/Profile";
 
 const Router = () => {
   const router = createBrowserRouter([
@@ -56,6 +57,10 @@ const Router = () => {
         {
           path: "/dashboard/users",
           Component: Users,
+        },
+        {
+          path: "/dashboard/profile",
+          Component: Profile,
         },
       ],
     },
