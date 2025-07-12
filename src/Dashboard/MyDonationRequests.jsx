@@ -2,19 +2,21 @@ import React, { useEffect, useState } from "react";
 import useAxiosBase from "../Hooks/useAxiosBase";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import useAuth from "../Hooks/useAuth";
 
-export default function AllDonationRequests() {
+export default function MyDonationRequests() {
   const axiosBase = useAxiosBase();
   const [count, setCount] = useState(0);
   const [itemPerPage, setItemPerPage] = useState(3);
   const [currentPage, setCurrentPage] = useState(0);
   const [requests, setRequests] = useState([]);
+  const { user } = useAuth();
   // Pagination
   const pages = [...Array(Math.ceil(count / itemPerPage)).keys()];
 
   useEffect(() => {
     axiosBase
-      .get("/total-donation-request-count")
+      .get(`/my-donation-request-count?email=${user?.email}`)
       .then((res) => setCount(res.data.count));
   }, []);
 
@@ -28,7 +30,7 @@ export default function AllDonationRequests() {
   useEffect(() => {
     axiosBase
       .get(
-        `/all-donation-requests?limit=${itemPerPage}&skip=${
+        `/my-donation-requests?email=${user?.email}&limit=${itemPerPage}&skip=${
           parseInt(currentPage) * parseInt(itemPerPage)
         }`
       )

@@ -11,7 +11,7 @@ import {
 import Logo from "../Components/Utilities/Logo";
 import logoLight from "../assets/Logos/logo-light.png";
 import { FaUsersGear } from "react-icons/fa6";
-import { FaTint } from "react-icons/fa";
+import { FaHandHoldingHeart, FaTint } from "react-icons/fa";
 export default function DashboardLayout() {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -41,6 +41,11 @@ export default function DashboardLayout() {
       name: "Donation Requests",
       path: "/dashboard/all-donation-requests",
       icon: <FaTint className="w-5 h-5 mr-2" />,
+    },
+    {
+      name: "My Donation Requests",
+      path: "/dashboard/my-donation-requests",
+      icon: <FaHandHoldingHeart className="w-5 h-5 mr-2" />,
     },
   ];
 
