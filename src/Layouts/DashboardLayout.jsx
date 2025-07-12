@@ -1,6 +1,13 @@
 import { useState } from "react";
 import { Link, Outlet } from "react-router";
-import { FiMenu, FiX, FiHome, FiUser, FiSettings } from "react-icons/fi";
+import {
+  FiMenu,
+  FiX,
+  FiHome,
+  FiUser,
+  FiSettings,
+  FiPlusCircle,
+} from "react-icons/fi";
 import Logo from "../Components/Utilities/Logo";
 import logoLight from "../assets/Logos/logo-light.png";
 import { FaUsersGear } from "react-icons/fa6";
@@ -27,6 +34,11 @@ export default function DashboardLayout() {
       name: "Settings",
       path: "/dashboard/settings",
       icon: <FiSettings className="w-5 h-5 mr-2" />,
+    },
+    {
+      name: "Create Donation Request",
+      path: "/dashboard/create-donation-request",
+      icon: <FiPlusCircle className="w-5 h-5 mr-2" />,
     },
   ];
 

@@ -124,25 +124,6 @@ export default function Profile() {
     },
   });
 
-  //   Update user data mutation
-  //   const mutation = useMutation({
-  //     mutationFn: (updatedData) =>
-  //       axiosBase.put("/profile-update?email", updatedData),
-  //     onSuccess: () => {
-  //       setIsEditing(false);
-  //       refetch();
-  //     },
-  //   });
-  //   console.log(userData.blood_group);
-  //   const onSubmit = (data) => {
-  //     mutation.mutate(data);
-  //   };
-
-  //   // Sync form with fetched user data
-  //   if (userData) {
-  //     reset(userData);
-  //   }
-
   return (
     <>
       <div className="max-w-full mx-auto  p-6 bg-white rounded shadow">
