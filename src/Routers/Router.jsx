@@ -12,6 +12,7 @@ import Dashboard from "../Dashboard/Dashboard";
 import Users from "../Dashboard/Users";
 import Profile from "../Dashboard/Profile";
 import CreateDonationRequest from "../Dashboard/CreateDonationRequest";
+import AllDonationRequests from "../Dashboard/AllDonationRequests";
 
 const Router = () => {
   const router = createBrowserRouter([
@@ -62,6 +63,10 @@ const Router = () => {
         {
           path: "/dashboard/profile",
           Component: Profile,
+        },
+        {
+          path: "/dashboard/all-donation-requests",
+          element: <AllDonationRequests></AllDonationRequests>,
         },
         // Donor Dashboard
         {
