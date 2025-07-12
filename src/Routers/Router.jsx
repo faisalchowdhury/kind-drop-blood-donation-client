@@ -11,6 +11,7 @@ import PrivateRoute from "../PrivateRoutes/PrivateRoute";
 import Dashboard from "../Dashboard/Dashboard";
 import Users from "../Dashboard/Users";
 import Profile from "../Dashboard/Profile";
+import CreateDonationRequest from "../Dashboard/CreateDonationRequest";
 
 const Router = () => {
   const router = createBrowserRouter([
@@ -61,6 +62,11 @@ const Router = () => {
         {
           path: "/dashboard/profile",
           Component: Profile,
+        },
+        // Donor Dashboard
+        {
+          path: "/dashboard/create-donation-request",
+          element: <CreateDonationRequest></CreateDonationRequest>,
         },
       ],
     },

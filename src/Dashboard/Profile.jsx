@@ -160,18 +160,31 @@ export default function Profile() {
         <form
           onSubmit={handleSubmit(submitUpdateProfile)}
           className="grid grid-cols-1 gap-4">
-          <div className="relative w-32 h-32 rounded-full overflow-hidden ">
+          <div
+            className={`relative w-32 h-32 rounded-full overflow-hidden group ${
+              !isEditing ? "hover:cursor-pointer" : ""
+            }`}>
             {userData.image_url ? (
-              <img
-                src={userData.image_url}
-                alt="Avatar Preview"
-                className="object-cover w-full h-full"
-              />
+              <>
+                <img
+                  src={userData.image_url}
+                  alt="Avatar Preview"
+                  className={`object-cover w-full h-full transform transition-transform duration-300 ${
+                    isEditing ? "group-hover:scale-110" : ""
+                  }`}
+                />
+                {isEditing && (
+                  <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">
+                    <FaEdit className="text-white text-3xl" />
+                  </div>
+                )}
+              </>
             ) : (
               <div className="bg-gray-200 w-full h-full flex items-center justify-center text-gray-400 text-sm">
                 No Image
               </div>
             )}
+
             {isEditing && (
               <input
                 type="file"
@@ -253,7 +266,7 @@ export default function Profile() {
             <label className="block mb-1 text-sm text-gray-700">
               Blood Group
             </label>
-            {
+            {userData.blood_group && (
               <select
                 disabled={!isEditing}
                 defaultValue={userData?.blood_group}
@@ -268,7 +281,7 @@ export default function Profile() {
                 <option value="O+">O+</option>
                 <option value="O-">O-</option>
               </select>
-            }
+            )}
           </div>
 
           {isEditing && (
