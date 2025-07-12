@@ -1,17 +1,48 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import useAxiosBase from "../Hooks/useAxiosBase";
 import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 export default function AllDonationRequests() {
   const axiosBase = useAxiosBase();
+  const [count, setCount] = useState(0);
+  const [itemPerPage, setItemPerPage] = useState(3);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [requests, setRequests] = useState([]);
+  // Pagination
+  const pages = [...Array(Math.ceil(count / itemPerPage)).keys()];
 
-  const { data: requests = [] } = useQuery({
-    queryKey: ["requests"],
+  useEffect(() => {
+    axiosBase
+      .get("/total-donation-count")
+      .then((res) => setCount(res.data.count));
+  }, []);
+
+  console.log(count);
+
+  const handleTotalNumberOfItem = (e) => {
+    setItemPerPage(e.target.value);
+    setCurrentPage(0);
+  };
+  //   Load all donation request
+  useEffect(() => {
+    axiosBase
+      .get(
+        `/all-donation-requests?limit=${itemPerPage}&skip=${
+          parseInt(currentPage) * parseInt(itemPerPage)
+        }`
+      )
+      .then((res) => setRequests(res.data));
+  }, [currentPage, itemPerPage]);
+
+  // Load District
+
+  const { data: districts = [] } = useQuery({
+    queryKey: ["districts"],
     queryFn: () =>
-      axiosBase.get("/all-donation-requests").then((res) => res.data),
+      axios.get(`/src/Data/district.json`).then((res) => res?.data[2]?.data),
   });
 
-  console.log(requests);
   return (
     <>
       <div className="bg-slate-50 p-4 shadow rounded">
@@ -35,11 +66,17 @@ export default function AllDonationRequests() {
             <tbody>
               {requests.map((request, id) => (
                 <tr key={request._id} className="hover:bg-slate-200">
-                  <th className="bg-white">{id + 1}</th>
+                  <th className="bg-white">
+                    {id + 1 + currentPage * itemPerPage}
+                  </th>
                   <td>{request.recipientName}</td>
                   <td>
-                    District - {request.recipientDistrict} <br /> Upazila -{" "}
-                    {request.recipientUpazila} <br />
+                    District -{" "}
+                    {districts.length > 0 &&
+                      districts.find(
+                        (district) => district.id == request.recipientDistrict
+                      )?.name}
+                    <br /> Upazila - {request.recipientUpazila} <br />
                     Address Line - {request.addressLine}
                   </td>
                   <td>{request.donationDate}</td>
@@ -60,6 +97,30 @@ export default function AllDonationRequests() {
               ))}
             </tbody>
           </table>
+        </div>
+        {/* Pagination */}
+        <div className="flex gap-1 justify-end mt-5">
+          {pages.map((page) => (
+            <button
+              className={`btn btn-xs border ${
+                currentPage === page ? "bg-primary text-white" : ""
+              }`}
+              onClick={() => setCurrentPage(page)}
+              key={page}>
+              {page + 1}
+            </button>
+          ))}
+
+          <select
+            className="text-xs border"
+            onChange={handleTotalNumberOfItem}
+            defaultValue={itemPerPage}>
+            <option>3</option>
+            <option>10</option>
+            <option>15</option>
+            <option>20</option>
+            <option>50</option>
+          </select>
         </div>
       </div>
     </>

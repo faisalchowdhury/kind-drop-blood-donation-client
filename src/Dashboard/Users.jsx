@@ -12,7 +12,13 @@ const Users = () => {
     },
   });
 
-  console.log(users);
+  // Load District
+
+  const { data: districts = [] } = useQuery({
+    queryKey: ["districts"],
+    queryFn: () =>
+      axios.get(`/src/Data/district.json`).then((res) => res?.data[2]?.data),
+  });
   return (
     <>
       <div className="overflow-x-auto">
@@ -25,8 +31,8 @@ const Users = () => {
               <th>District</th>
               <th>Blood Group</th>
               <th>Creation Date</th>
-              <th>Status</th>
               <th>Role</th>
+              <th>Status</th>
             </tr>
           </thead>
           <tbody>
@@ -52,13 +58,19 @@ const Users = () => {
                     </div>
                   </td>
                   <td>{user.email}</td>
-                  <td>{user.district_id}</td>
+                  <td>
+                    {districts.length > 0 &&
+                      districts.find(
+                        (district) => district.id == user.district_id
+                      )?.name}
+                  </td>
                   <th>
                     <button className="w-full bg-red-600 text-white hover:none">
                       {user.blood_group}
                     </button>
                   </th>
                   <td>{new Date(user.creation_date).toLocaleDateString()}</td>
+                  <td>{user.role}</td>
                   <td>
                     {user.status === "active" ? (
                       <button
@@ -74,7 +86,6 @@ const Users = () => {
                       </button>
                     )}
                   </td>
-                  <td>{user.role}</td>
                 </tr>
               ))}
           </tbody>

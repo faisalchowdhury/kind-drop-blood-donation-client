@@ -31,11 +31,7 @@ export default function DashboardLayout() {
       path: "/dashboard/users",
       icon: <FaUsersGear className="w-5 h-5 mr-2" />,
     },
-    {
-      name: "Settings",
-      path: "/dashboard/settings",
-      icon: <FiSettings className="w-5 h-5 mr-2" />,
-    },
+
     {
       name: "Create Donation Request",
       path: "/dashboard/create-donation-request",
