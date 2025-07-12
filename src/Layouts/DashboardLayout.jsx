@@ -11,7 +11,7 @@ import {
 import Logo from "../Components/Utilities/Logo";
 import logoLight from "../assets/Logos/logo-light.png";
 import { FaUsersGear } from "react-icons/fa6";
-import { FaEdit, FaHandHoldingHeart, FaTint } from "react-icons/fa";
+import { FaBook, FaEdit, FaHandHoldingHeart, FaTint } from "react-icons/fa";
 export default function DashboardLayout() {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -51,6 +51,11 @@ export default function DashboardLayout() {
       name: "Add Blog",
       path: "/dashboard/content-management/add-blog",
       icon: <FaEdit className="w-5 h-5 mr-2" />, // relevant icon for "add blog"
+    },
+    {
+      name: "All Blogs",
+      path: "/dashboard/content-management/all-blogs",
+      icon: <FaBook className="w-5 h-5 mr-2" />,
     },
   ];
 

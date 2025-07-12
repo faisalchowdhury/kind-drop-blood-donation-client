@@ -40,7 +40,7 @@ export default function AddBlog() {
     }
     const dataToUpload = {
       title,
-      thumbnail: image_url,
+      thumbnail: image_url.secure_url,
       description: content,
       author: user?.displayName,
       author_email: user?.email,
