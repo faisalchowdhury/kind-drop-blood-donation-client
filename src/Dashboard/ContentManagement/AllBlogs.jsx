@@ -1,8 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import { FaEdit, FaTrash, FaEye } from "react-icons/fa";
 import useAxiosBase from "../../Hooks/useAxiosBase";
 import { Link } from "react-router";
+import Swal from "sweetalert2";
 
 export default function AllBlogs() {
   const axiosBase = useAxiosBase();
@@ -13,7 +14,6 @@ export default function AllBlogs() {
 
   const pages = [...Array(Math.ceil(count / itemPerPage)).keys()];
 
-  console.log(pages);
   useEffect(() => {
     axiosBase.get("/total-blogs").then((res) => setCount(res.data.count));
   }, []);
@@ -35,6 +35,29 @@ export default function AllBlogs() {
         .then((res) => res.data),
   });
 
+  // Delete Blog
+  const handleDeleteBlog = (id) => {
+    Swal.fire({
+      title: "Do you want to delete this blog",
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Delete",
+      denyButtonText: `Don't delete`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        deleteMutation.mutate(id);
+      } else if (result.isDenied) {
+      }
+    });
+  };
+
+  const deleteMutation = useMutation({
+    mutationFn: (id) => axiosBase.delete(`/delete-blog/${id}`),
+    onSuccess: () => {
+      refetch();
+    },
+  });
   return (
     <div className="p-4 bg-white rounded shadow overflow-x-auto">
       <h2 className="text-xl font-semibold mb-4 text-primary">All Blogs</h2>
@@ -85,7 +108,9 @@ export default function AllBlogs() {
                   className="btn btn-xs btn-success">
                   <FaEdit />
                 </Link>
-                <button className="btn btn-xs btn-error">
+                <button
+                  onClick={() => handleDeleteBlog(blog._id)}
+                  className="btn btn-xs btn-error">
                   <FaTrash />
                 </button>
               </td>

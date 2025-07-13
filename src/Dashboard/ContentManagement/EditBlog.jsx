@@ -22,7 +22,7 @@ export default function EditBlog() {
 
   const { id } = useParams();
 
-  const { data: blogData = {} } = useQuery({
+  const { data: blogData = {}, refetch } = useQuery({
     queryKey: ["blog", id],
     queryFn: () => axiosBase.get(`/get-blog/${id}`).then((res) => res.data),
   });
@@ -30,7 +30,6 @@ export default function EditBlog() {
   useEffect(() => {
     setContent(blogData.description);
   }, [blogData]);
-  console.log(blogData);
 
   //   Upload to cloudinary
 
@@ -77,6 +76,7 @@ export default function EditBlog() {
           showConfirmButton: false,
           timer: 1500,
         });
+        refetch();
       }
     },
     onError: (err) => {
