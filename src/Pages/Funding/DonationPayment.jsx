@@ -139,6 +139,46 @@ export default function DonationPayment() {
           </div>
         </div>
       </div>
+      <div>
+        <div className="bg-white shadow rounded p-6">
+          <h3 className="text-lg font-semibold mb-4 text-center">
+            Donors Who Have Funded Us
+          </h3>
+
+          {donations.length === 0 ? (
+            <p className="text-center text-gray-500">No donations yet.</p>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="table table-lg">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Amount (USD)</th>
+                    <th>Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {donations.map((donor, index) => (
+                    <tr
+                      key={donor._id || index}
+                      className={index % 2 === 0 ? "bg-white" : "bg-slate-100"}>
+                      <td>{index + 1}</td>
+                      <td>{donor.name}</td>
+                      <td>{donor.email}</td>
+                      <td>${donor.amount.toFixed(2)}</td>
+                      <td>
+                        {new Date(donor.depositDate).toLocaleDateString()}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      </div>
     </>
   );
 }
