@@ -1,18 +1,40 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import useAxiosBase from "../Hooks/useAxiosBase";
 import Swal from "sweetalert2";
 
 const Users = () => {
   const axiosBase = useAxiosBase();
+
+  // Pagination
+  const [itemPerPage, setItemPerPage] = useState(5);
+  const [count, setCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
+
+  const pages = [...Array(Math.ceil(count / itemPerPage)).keys()];
+  useEffect(() => {
+    axiosBase.get("/total-users").then((res) => setCount(res.data.count));
+  }, []);
+  const handleItemsPerPage = (e) => {
+    setItemPerPage(parseInt(e.target.value));
+    setCurrentPage(0);
+  };
+  console.log(count);
+  // Pagination
+
+  // load data
   const {
     data: users = [],
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ["users"],
+    queryKey: ["users", currentPage, itemPerPage],
     queryFn: async () => {
-      const result = await axiosBase.get("/users");
+      const result = await axiosBase.get(
+        `/users?limit=${itemPerPage}&skip=${
+          parseInt(itemPerPage) * parseInt(currentPage)
+        }`
+      );
       return result.data;
     },
   });
@@ -116,7 +138,7 @@ const Users = () => {
   });
   return (
     <>
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto overflow-y-hidden">
         <table className="table">
           {/* head */}
           <thead>
@@ -197,6 +219,27 @@ const Users = () => {
               ))}
           </tbody>
         </table>
+        <div className="flex gap-1 justify-end mr-5">
+          {pages.map((page) => (
+            <button
+              key={page}
+              onClick={() => setCurrentPage(page)}
+              className={`btn border btn-xs ${
+                currentPage == page ? "bg-primary text-white" : ""
+              }`}>
+              {page}
+            </button>
+          ))}
+          <select
+            onChange={handleItemsPerPage}
+            className="text-sm border"
+            name=""
+            id="">
+            <option>5</option>
+            <option>20</option>
+            <option>50</option>
+          </select>
+        </div>
       </div>
     </>
   );

@@ -14,10 +14,10 @@ const Header = () => {
   const menu = (
     <>
       <li>
-        <NavLink>Donation requests</NavLink>
+        <NavLink to={"/donation-requests"}>Donation requests</NavLink>
       </li>
       <li>
-        <NavLink to={'/all-blogs'}>Blogs</NavLink>
+        <NavLink to={"/all-blogs"}>Blogs</NavLink>
       </li>
     </>
   );
@@ -55,7 +55,9 @@ const Header = () => {
 
         <div className="navbar-end hidden lg:flex space-x-2">
           <ul className="menu menu-horizontal px-1 text-primary">{menu}</ul>
-          <Link to="/registration" className="btn bg-accent hover:bg-primary duration-500 text-white border-none rounded-full ">
+          <Link
+            to="/registration"
+            className="btn bg-accent hover:bg-primary duration-500 text-white border-none rounded-full ">
             Join as a donor
           </Link>
           <button

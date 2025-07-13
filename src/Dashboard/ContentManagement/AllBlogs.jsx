@@ -22,7 +22,7 @@ export default function AllBlogs() {
     setItemPerPage(e.target.value);
     setCurrentPage(0);
   };
-  // Load blog data
+  // Load blog data with pagination query
   const { data: blogs = [], refetch } = useQuery({
     queryKey: ["blogs", currentPage, itemPerPage],
     queryFn: () =>

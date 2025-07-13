@@ -19,6 +19,7 @@ import AllBlogs from "../Dashboard/ContentManagement/AllBlogs";
 import EditBlog from "../Dashboard/ContentManagement/EditBlog";
 import AllBlogsFrontEnd from "../Pages/AllBlogs/AllBlogs";
 import BlogDetails from "../Pages/BlogDetails/BlogDetails";
+import DonationRequests from "../Pages/DonationRequests/DonationRequests";
 
 const Router = () => {
   const router = createBrowserRouter([
@@ -42,9 +43,13 @@ const Router = () => {
           path: "/all-blogs",
           Component: AllBlogsFrontEnd,
         },
-         {
+        {
           path: "/blog-details/:id",
           Component: BlogDetails,
+        },
+        {
+          path: "/donation-requests",
+          Component: DonationRequests,
         },
       ],
     },
