@@ -21,6 +21,14 @@ import AllBlogsFrontEnd from "../Pages/AllBlogs/AllBlogs";
 import BlogDetails from "../Pages/BlogDetails/BlogDetails";
 import DonationRequests from "../Pages/DonationRequests/DonationRequests";
 import DonationRequestDetails from "../Pages/DonationRequests/DonationRequestDetails";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import DonationPayment from "../Pages/Funding/DonationPayment";
+
+// Replace with your Stripe publishable key
+const stripePromise = loadStripe(
+  "pk_test_51Rg9SKRjZ7l8BlE9V6v58DeVP2TKvUOwwSVee9wrpUTM0DaAx4ow5LHG6S3LtL1cwyZRxG6MS62Nu4DpRANAGN1X00wC7HtsY0"
+);
 
 const Router = () => {
   const router = createBrowserRouter([
@@ -55,6 +63,14 @@ const Router = () => {
         {
           path: "/donation-request-details/:id",
           Component: DonationRequestDetails,
+        },
+        {
+          path: "/funding-donation",
+          element: (
+            <Elements stripe={stripePromise}>
+              <DonationPayment></DonationPayment>
+            </Elements>
+          ),
         },
       ],
     },
