@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import { FaEdit, FaTrash, FaEye } from "react-icons/fa";
 import useAxiosBase from "../../Hooks/useAxiosBase";
+import { Link } from "react-router";
 
 export default function AllBlogs() {
   const axiosBase = useAxiosBase();
@@ -79,9 +80,11 @@ export default function AllBlogs() {
                 <button className="btn btn-xs btn-info">
                   <FaEye />
                 </button>
-                <button className="btn btn-xs btn-success">
+                <Link
+                  to={`/dashboard/content-management/edit-blog/${blog._id}`}
+                  className="btn btn-xs btn-success">
                   <FaEdit />
-                </button>
+                </Link>
                 <button className="btn btn-xs btn-error">
                   <FaTrash />
                 </button>
@@ -94,6 +97,7 @@ export default function AllBlogs() {
       <div className="flex gap-1 justify-end">
         {pages.map((page) => (
           <button
+            key={page}
             onClick={() => setCurrentPage(page)}
             className={`btn border btn-xs ${
               currentPage == page ? "bg-primary text-white" : ""
