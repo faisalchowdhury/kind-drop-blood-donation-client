@@ -85,7 +85,7 @@ export default function AllBlogs() {
                   className="w-16 h-16 rounded object-cover"
                 />
               </td>
-              <td>{blog.title}</td>
+              <td className="font-medium">{blog.title}</td>
               <td>{blog.author}</td>
               <td>{blog.author_email}</td>
               <td>{new Date(blog.creation_date).toLocaleDateString()}</td>
@@ -99,20 +99,24 @@ export default function AllBlogs() {
                   {blog.status}
                 </span>
               </td>
-              <td className="flex gap-2">
-                <button className="btn btn-xs btn-info">
-                  <FaEye />
-                </button>
-                <Link
-                  to={`/dashboard/content-management/edit-blog/${blog._id}`}
-                  className="btn btn-xs btn-success">
-                  <FaEdit />
-                </Link>
-                <button
-                  onClick={() => handleDeleteBlog(blog._id)}
-                  className="btn btn-xs btn-error">
-                  <FaTrash />
-                </button>
+              <td>
+                <div className="flex gap-2">
+                  <Link
+                    to={`/blog-details/${blog._id}`}
+                    className="btn border-none rounded bg-primary text-white  btn-xs btn-info">
+                    <FaEye />
+                  </Link>
+                  <Link
+                    to={`/dashboard/content-management/edit-blog/${blog._id}`}
+                    className="btn  border-none rounded bg-green-600 text-white btn-xs btn-success">
+                    <FaEdit />
+                  </Link>
+                  <button
+                    onClick={() => handleDeleteBlog(blog._id)}
+                    className="btn border-none rounded bg-accent text-white btn-xs btn-error">
+                    <FaTrash />
+                  </button>
+                </div>
               </td>
             </tr>
           ))}

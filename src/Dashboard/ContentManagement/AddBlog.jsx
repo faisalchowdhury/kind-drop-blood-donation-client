@@ -5,13 +5,14 @@ import useAuth from "../../Hooks/useAuth";
 import { useMutation } from "@tanstack/react-query";
 import useAxiosBase from "../../Hooks/useAxiosBase";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router";
 
 export default function AddBlog() {
   const [thumbnail, setThumbnail] = useState(null);
   const [content, setContent] = useState("");
   const { user } = useAuth();
   const axiosBase = useAxiosBase();
-
+  const navigate = useNavigate();
   const handleThumbnailChange = (e) => {
     setThumbnail(e.target.files[0]);
   };
@@ -62,7 +63,7 @@ export default function AddBlog() {
           showConfirmButton: false,
           timer: 1500,
         });
-        mutation.reset();
+        navigate("/dashboard/content-management/all-blogs");
       }
     },
     onError: (err) => {

@@ -1,10 +1,15 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import React from "react";
 import useAxiosBase from "../Hooks/useAxiosBase";
+import Swal from "sweetalert2";
 
 const Users = () => {
   const axiosBase = useAxiosBase();
-  const { data: users = [], isLoading } = useQuery({
+  const {
+    data: users = [],
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
       const result = await axiosBase.get("/users");
@@ -12,12 +17,102 @@ const Users = () => {
     },
   });
 
-  // Load District
+  // Block user
+  const handleBlockUser = (id) => {
+    Swal.fire({
+      title: `Do you want make this user Block this user?`,
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+      denyButtonText: `No`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        blockUserMutation.mutate(id);
+      } else if (result.isDenied) {
+      }
+    });
+  };
+  const blockUserMutation = useMutation({
+    mutationFn: (id) =>
+      axiosBase.patch(`/block-user-status/${id}`).then((res) => res.data),
+    onSuccess: () => {
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: `User status change to block`,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      refetch();
+    },
+  });
 
-  const { data: districts = [] } = useQuery({
-    queryKey: ["districts"],
-    queryFn: () =>
-      axios.get(`/src/Data/district.json`).then((res) => res?.data[2]?.data),
+  // Active user
+  const handleActiveUser = (id) => {
+    Swal.fire({
+      title: `Do you want make this user Active this user?`,
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+      denyButtonText: `No`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        activeUserMutation.mutate(id);
+      } else if (result.isDenied) {
+      }
+    });
+  };
+  const activeUserMutation = useMutation({
+    mutationFn: (id) =>
+      axiosBase.patch(`/active-user-status/${id}`).then((res) => res.data),
+    onSuccess: () => {
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: `User status changed to Active`,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      refetch();
+    },
+  });
+
+  // Handle user Role
+
+  const handleUserRole = (id, e) => {
+    Swal.fire({
+      title: `Do you want make this user ${e.target.value}`,
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+      denyButtonText: `No`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        const info = {
+          id,
+          role: e.target.value,
+        };
+        roleMutation.mutate(info);
+      } else if (result.isDenied) {
+      }
+    });
+  };
+
+  const roleMutation = useMutation({
+    mutationFn: (info) => axiosBase.patch("/manage-role", info),
+    onSuccess: () => {
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: `User role have been changed`,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      refetch();
+    },
   });
   return (
     <>
@@ -28,11 +123,12 @@ const Users = () => {
             <tr>
               <th>Name</th>
               <th>Email</th>
-              <th>District</th>
-              <th>Blood Group</th>
+
               <th>Creation Date</th>
               <th>Role</th>
               <th>Status</th>
+              <th>Action</th>
+              <th>Manage Role</th>
             </tr>
           </thead>
           <tbody>
@@ -58,33 +154,44 @@ const Users = () => {
                     </div>
                   </td>
                   <td>{user.email}</td>
-                  <td>
-                    {districts.length > 0 &&
-                      districts.find(
-                        (district) => district.id == user.district_id
-                      )?.name}
-                  </td>
-                  <th>
-                    <button className="w-full bg-red-600 text-white hover:none">
-                      {user.blood_group}
-                    </button>
-                  </th>
+
                   <td>{new Date(user.creation_date).toLocaleDateString()}</td>
-                  <td>{user.role}</td>
+                  <td>{user.role.toUpperCase()}</td>
+                  <td>{user.status}</td>
                   <td>
                     {user.status === "active" ? (
                       <button
+                        onClick={() => handleBlockUser(user._id)}
                         title="Click to block user"
-                        className="btn bg-green-600 text-white">
-                        Active
+                        className="btn rounded-lg bg-red-600 text-white">
+                        Block
                       </button>
                     ) : (
                       <button
+                        onClick={() => handleActiveUser(user._id)}
                         title="Click to active user"
-                        className="btn bg-red-600 text-white">
-                        Block
+                        className="btn rounded-lg bg-green-600 text-white">
+                        Active
                       </button>
                     )}
+                  </td>
+                  <td>
+                    <select
+                      defaultValue={user.role}
+                      onChange={(e) => handleUserRole(user._id, e)}
+                      className="border border-slate-400 p-2 outline-0 rounded shadow">
+                      <option disabled={user.role === "donor"} value="donor">
+                        Donor
+                      </option>
+                      <option
+                        disabled={user.role === "volunteer"}
+                        value="volunteer">
+                        Volunteer
+                      </option>
+                      <option disabled={user.role === "admin"} value="admin">
+                        Admin
+                      </option>
+                    </select>
                   </td>
                 </tr>
               ))}
