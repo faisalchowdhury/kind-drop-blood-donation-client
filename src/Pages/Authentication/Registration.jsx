@@ -102,9 +102,9 @@ export default function Registration() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row">
+    <div className="min-h-screen flex flex-col gap-5 md:flex-row">
       {/* Left Side: Registration Form */}
-      <div className="md:w-1/2 w-full flex items-center justify-center p-8 bg-white">
+      <div className="md:w-1/2 w-full flex items-center justify-center  bg-white">
         <div className="w-full max-w-2xl">
           <h2 className="text-2xl font-bold mb-6 text-primary">
             Create Your KindDrop Account

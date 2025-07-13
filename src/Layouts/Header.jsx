@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router";
+import { Link, NavLink } from "react-router";
 import Logo from "../Components/Utilities/Logo";
 import LogoLight from "../assets/Logos/logo-light.png";
 import useAuth from "../Hooks/useAuth";
@@ -17,7 +17,7 @@ const Header = () => {
         <NavLink>Donation requests</NavLink>
       </li>
       <li>
-        <NavLink>Blogs</NavLink>
+        <NavLink to={'/all-blogs'}>Blogs</NavLink>
       </li>
     </>
   );
@@ -55,9 +55,9 @@ const Header = () => {
 
         <div className="navbar-end hidden lg:flex space-x-2">
           <ul className="menu menu-horizontal px-1 text-primary">{menu}</ul>
-          <button className="btn bg-accent hover:bg-primary duration-500 text-white border-none rounded-full ">
+          <Link to="/registration" className="btn bg-accent hover:bg-primary duration-500 text-white border-none rounded-full ">
             Join as a donor
-          </button>
+          </Link>
           <button
             onClick={logoutUser}
             className="btn bg-primary hover:bg-accent duration-500 text-white border-none rounded-full ">
