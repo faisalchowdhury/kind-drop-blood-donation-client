@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import useAxiosBase from "../../Hooks/useAxiosBase";
+import { Link } from "react-router";
 
 export default function DonationRequests() {
   const axiosBase = useAxiosBase();
@@ -85,9 +86,11 @@ export default function DonationRequests() {
                 {request.donationTime}
               </p>
             </div>
-            <button className="btn btn-primary rounded-lg text-white mt-3 w-full">
+            <Link
+              to={`/donation-request-details/${request._id}`}
+              className="btn btn-primary rounded-lg text-white mt-3 w-full">
               View Details
-            </button>
+            </Link>
           </div>
         ))}
       </div>

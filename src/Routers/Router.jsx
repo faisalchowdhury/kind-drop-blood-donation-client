@@ -20,6 +20,7 @@ import EditBlog from "../Dashboard/ContentManagement/EditBlog";
 import AllBlogsFrontEnd from "../Pages/AllBlogs/AllBlogs";
 import BlogDetails from "../Pages/BlogDetails/BlogDetails";
 import DonationRequests from "../Pages/DonationRequests/DonationRequests";
+import DonationRequestDetails from "../Pages/DonationRequests/DonationRequestDetails";
 
 const Router = () => {
   const router = createBrowserRouter([
@@ -50,6 +51,10 @@ const Router = () => {
         {
           path: "/donation-requests",
           Component: DonationRequests,
+        },
+        {
+          path: "/donation-request-details/:id",
+          Component: DonationRequestDetails,
         },
       ],
     },
