@@ -24,6 +24,8 @@ import DonationRequestDetails from "../Pages/DonationRequests/DonationRequestDet
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import DonationPayment from "../Pages/Funding/DonationPayment";
+import Forbidden from "../Pages/Forbidden/Forbidden";
+import AdminRoute from "../PrivateRoutes/RoleBaseRoute/AdminRoute";
 
 // Replace with your Stripe publishable key
 const stripePromise = loadStripe(
@@ -97,8 +99,16 @@ const Router = () => {
           ),
         },
         {
+          path: "/dashboard/forbidden",
+          Component: Forbidden,
+        },
+        {
           path: "/dashboard/users",
-          Component: Users,
+          element: (
+            <AdminRoute>
+              <Users></Users>
+            </AdminRoute>
+          ),
         },
         {
           path: "/dashboard/profile",
