@@ -4,6 +4,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Loading from "../Components/Utilities/Loading";
 import { Link } from "react-router";
+import Swal from "sweetalert2";
 
 export default function AllDonationRequests() {
   const axiosBase = useAxiosBase();
@@ -12,6 +13,7 @@ export default function AllDonationRequests() {
   const [currentPage, setCurrentPage] = useState(0);
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState("");
   // Pagination
   const pages = [...Array(Math.ceil(count / itemPerPage)).keys()];
 
@@ -38,7 +40,7 @@ export default function AllDonationRequests() {
         setRequests(res.data);
         setLoading(false);
       });
-  }, [currentPage, itemPerPage]);
+  }, [currentPage, itemPerPage, status]);
 
   // Load District
 
@@ -67,10 +69,41 @@ export default function AllDonationRequests() {
       setStatus(res);
     },
   });
+
+  // Delete donation request
+  const deleteMutation = useMutation({
+    mutationFn: async (id) => {
+      const res = await axiosBase.delete(`/delete-donation-request/${id}`);
+      return res.data;
+    },
+    onSuccess: (res) => {
+      Swal.fire("Donation request deleted successfully");
+      // Refetch your requests to update the UI
+      setStatus((prev) => prev + 1);
+    },
+    onError: (error) => {
+      Swal.fire("Something went wrong");
+    },
+  });
+
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteMutation.mutate(id);
+      }
+    });
+  };
   if (loading) {
     return <Loading></Loading>;
   }
-
   return (
     <>
       <div className="bg-slate-50 p-4 shadow rounded">
@@ -148,7 +181,9 @@ export default function AllDonationRequests() {
                             className="btn btn-info btn-sm border">
                             Edit
                           </Link>
-                          <button className="btn btn-error btn-sm border">
+                          <button
+                            onClick={() => handleDelete(request._id)}
+                            className="btn btn-error btn-sm border">
                             Delete
                           </button>
                         </>

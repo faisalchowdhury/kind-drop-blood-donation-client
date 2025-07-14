@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import useAxiosBase from "../Hooks/useAxiosBase";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import useAuth from "../Hooks/useAuth";
 import { Link } from "react-router";
 import Loading from "../Components/Utilities/Loading";
+import Swal from "sweetalert2";
 
 export default function MyDonationRequests() {
   const axiosBase = useAxiosBase();
@@ -15,6 +16,7 @@ export default function MyDonationRequests() {
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState("");
   const { user } = useAuth();
+
   // Pagination
   const pages = [...Array(Math.ceil(count / itemPerPage)).keys()];
 
@@ -69,6 +71,38 @@ export default function MyDonationRequests() {
       setStatus(res);
     },
   });
+
+  // Delete donation request
+  const deleteMutation = useMutation({
+    mutationFn: async (id) => {
+      const res = await axiosBase.delete(`/delete-donation-request/${id}`);
+      return res.data;
+    },
+    onSuccess: (res) => {
+      Swal.fire("Donation request deleted successfully");
+      // Refetch your requests to update the UI
+      setStatus((prev) => prev + 1);
+    },
+    onError: (error) => {
+      Swal.fire("Something went wrong");
+    },
+  });
+
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteMutation.mutate(id);
+      }
+    });
+  };
 
   if (loading) {
     return <Loading></Loading>;
@@ -145,10 +179,14 @@ export default function MyDonationRequests() {
                       )}
                       {request.status === "pending" && (
                         <>
-                          <button className="btn btn-info btn-sm border">
+                          <Link
+                            to={`/dashboard/edit-donation-request/${request._id}`}
+                            className="btn btn-info btn-sm border">
                             Edit
-                          </button>
-                          <button className="btn btn-error btn-sm border">
+                          </Link>
+                          <button
+                            onClick={() => handleDelete(request._id)}
+                            className="btn btn-error btn-sm border">
                             Delete
                           </button>
                         </>
