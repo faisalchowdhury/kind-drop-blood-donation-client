@@ -143,9 +143,11 @@ export default function AllDonationRequests() {
                       )}
                       {request.status === "pending" && (
                         <>
-                          <button className="btn btn-info btn-sm border">
+                          <Link
+                            to={`/dashboard/edit-donation-request/${request._id}`}
+                            className="btn btn-info btn-sm border">
                             Edit
-                          </button>
+                          </Link>
                           <button className="btn btn-error btn-sm border">
                             Delete
                           </button>
