@@ -2,6 +2,8 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import useAxiosBase from "../Hooks/useAxiosBase";
 import Swal from "sweetalert2";
+import { FaTrashAlt } from "react-icons/fa";
+import Loading from "../Components/Utilities/Loading";
 
 const Users = () => {
   const axiosBase = useAxiosBase();
@@ -19,7 +21,7 @@ const Users = () => {
     setItemPerPage(parseInt(e.target.value));
     setCurrentPage(0);
   };
-  console.log(count);
+
   // Pagination
 
   // load data
@@ -136,6 +138,41 @@ const Users = () => {
       refetch();
     },
   });
+
+  const handleDeleteUser = (id) => {
+    Swal.fire({
+      title: `Do you want delete this user ?`,
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Delete",
+      denyButtonText: `Don't Delete`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        deleteMutaion.mutate(id);
+      } else if (result.isDenied) {
+      }
+    });
+  };
+
+  const deleteMutaion = useMutation({
+    mutationFn: (id) =>
+      axiosBase.delete(`/delete-user/${id}`).then((res) => res.data),
+    onSuccess: () => {
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: `User deleted successfully`,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      refetch();
+    },
+  });
+
+  if (isLoading) {
+    return <Loading></Loading>;
+  }
   return (
     <>
       <div className="overflow-x-auto overflow-y-hidden">
@@ -181,21 +218,29 @@ const Users = () => {
                   <td>{user.role.toUpperCase()}</td>
                   <td>{user.status}</td>
                   <td>
-                    {user.status === "active" ? (
+                    <div className="flex gap-2 items-center">
+                      {user.status === "active" ? (
+                        <button
+                          onClick={() => handleBlockUser(user._id)}
+                          title="Click to block user"
+                          className="btn rounded-lg bg-red-600 text-white">
+                          Block
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => handleActiveUser(user._id)}
+                          title="Click to active user"
+                          className="btn rounded-lg bg-green-600 text-white">
+                          Active
+                        </button>
+                      )}
+
                       <button
-                        onClick={() => handleBlockUser(user._id)}
-                        title="Click to block user"
-                        className="btn rounded-lg bg-red-600 text-white">
-                        Block
+                        onClick={() => handleDeleteUser(user._id)}
+                        className="btn rounded-lg bg-primary text-white">
+                        <FaTrashAlt />
                       </button>
-                    ) : (
-                      <button
-                        onClick={() => handleActiveUser(user._id)}
-                        title="Click to active user"
-                        className="btn rounded-lg bg-green-600 text-white">
-                        Active
-                      </button>
-                    )}
+                    </div>
                   </td>
                   <td>
                     <select

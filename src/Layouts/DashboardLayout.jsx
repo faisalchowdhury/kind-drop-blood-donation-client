@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, Outlet } from "react-router";
+import { Link, Outlet, useNavigate } from "react-router";
 import {
   FiMenu,
   FiX,
@@ -11,14 +11,23 @@ import {
 import Logo from "../Components/Utilities/Logo";
 import logoLight from "../assets/Logos/logo-light.png";
 import { FaUsersGear } from "react-icons/fa6";
-import { FaBook, FaEdit, FaHandHoldingHeart, FaTint } from "react-icons/fa";
+import {
+  FaBook,
+  FaEdit,
+  FaHandHoldingHeart,
+  FaPowerOff,
+  FaTint,
+} from "react-icons/fa";
 import useUserRole from "../Hooks/useUserRole";
 import Loading from "../Components/Utilities/Loading";
+import useAuth from "../Hooks/useAuth";
+import useNotification from "../Hooks/useNotification";
 export default function DashboardLayout() {
   const [isOpen, setIsOpen] = useState(false);
   const { userRole, roleLoading } = useUserRole();
-  console.log(userRole);
-
+  const { signOutUser } = useAuth();
+  const notification = useNotification();
+  const navigate = useNavigate();
   if (roleLoading) {
     return <Loading />;
   }
@@ -73,10 +82,17 @@ export default function DashboardLayout() {
         ]
       : []),
   ];
-
+  const logoutUser = () => {
+    signOutUser()
+      .then(() => {
+        navigate("/login");
+        notification.success("Logout successful");
+      })
+      .catch((err) => console.log(err));
+  };
   return (
-    <div className="bg-slate-300 md:py-10">
-      <div className="flex bg-slate-50 md:max-w-7xl mx-auto min-h-screen md:min-h-[90vh] rounded-lg shadow-2xl">
+    <div className="bg-slate-200 md:py-10">
+      <div className="flex bg-slate-50 md:max-w-[1400px] mx-auto min-h-screen md:min-h-[90vh] rounded-lg shadow-2xl">
         {/* Sidebar */}
         <div
           className={`fixed inset-y-0 left-0 w-64 bg-white shadow-md transform rounded-l-2xl ${
@@ -100,6 +116,12 @@ export default function DashboardLayout() {
                 {item.name}
               </Link>
             ))}
+            <button
+              onClick={logoutUser}
+              className="flex items-center px-4 py-2 rounded hover:bg-accent/10 text-gray-700 font-medium transition-colors">
+              <FaPowerOff className="w-5 h-5 mr-2" />
+              Logout
+            </button>
           </nav>
         </div>
 

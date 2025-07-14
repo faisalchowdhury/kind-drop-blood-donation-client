@@ -4,6 +4,7 @@ import { FaEdit, FaTrash, FaEye } from "react-icons/fa";
 import useAxiosBase from "../../Hooks/useAxiosBase";
 import { Link } from "react-router";
 import Swal from "sweetalert2";
+import Loading from "../../Components/Utilities/Loading";
 
 export default function AllBlogs() {
   const axiosBase = useAxiosBase();
@@ -23,7 +24,11 @@ export default function AllBlogs() {
     setCurrentPage(0);
   };
   // Load blog data with pagination query
-  const { data: blogs = [], refetch } = useQuery({
+  const {
+    data: blogs = [],
+    refetch,
+    isLoading,
+  } = useQuery({
     queryKey: ["blogs", currentPage, itemPerPage],
     queryFn: () =>
       axiosBase
@@ -58,6 +63,10 @@ export default function AllBlogs() {
       refetch();
     },
   });
+
+  if (isLoading) {
+    return <Loading></Loading>;
+  }
   return (
     <div className="p-4 bg-white rounded shadow overflow-x-auto">
       <h2 className="text-xl font-semibold mb-4 text-primary">All Blogs</h2>
@@ -102,7 +111,7 @@ export default function AllBlogs() {
               <td>
                 <div className="flex gap-2">
                   <Link
-                    to={`/blog-details/${blog._id}`}
+                    to={`/dashboard/content-management/blog-preview/${blog._id}`}
                     className="btn border-none rounded bg-primary text-white  btn-xs btn-info">
                     <FaEye />
                   </Link>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import useAxiosBase from "../Hooks/useAxiosBase";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import Loading from "../Components/Utilities/Loading";
 
 export default function AllDonationRequests() {
   const axiosBase = useAxiosBase();
@@ -9,6 +10,7 @@ export default function AllDonationRequests() {
   const [itemPerPage, setItemPerPage] = useState(3);
   const [currentPage, setCurrentPage] = useState(0);
   const [requests, setRequests] = useState([]);
+  const [loading, setLoading] = useState(false);
   // Pagination
   const pages = [...Array(Math.ceil(count / itemPerPage)).keys()];
 
@@ -18,21 +20,23 @@ export default function AllDonationRequests() {
       .then((res) => setCount(res.data.count));
   }, []);
 
-  console.log(count);
-
   const handleTotalNumberOfItem = (e) => {
     setItemPerPage(e.target.value);
     setCurrentPage(0);
   };
   //   Load all donation request
   useEffect(() => {
+    setLoading(true);
     axiosBase
       .get(
         `/all-donation-requests?limit=${itemPerPage}&skip=${
           parseInt(currentPage) * parseInt(itemPerPage)
         }`
       )
-      .then((res) => setRequests(res.data));
+      .then((res) => {
+        setRequests(res.data);
+        setLoading(false);
+      });
   }, [currentPage, itemPerPage]);
 
   // Load District
@@ -43,6 +47,10 @@ export default function AllDonationRequests() {
       axios.get(`/src/Data/district.json`).then((res) => res?.data[2]?.data),
   });
 
+  if (loading) {
+    return <Loading></Loading>;
+  }
+
   return (
     <>
       <div className="bg-slate-50 p-4 shadow rounded">
@@ -50,7 +58,7 @@ export default function AllDonationRequests() {
           All Donation Requests
         </h2>
         <div className="overflow-x-auto">
-          <table className="table table-sm table-pin-rows table-pin-cols">
+          <table className="table table-md table-pin-rows table-pin-cols">
             <thead>
               <tr>
                 <th className="bg-white">No.</th>

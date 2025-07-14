@@ -26,6 +26,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import DonationPayment from "../Pages/Funding/DonationPayment";
 import Forbidden from "../Pages/Forbidden/Forbidden";
 import AdminRoute from "../PrivateRoutes/RoleBaseRoute/AdminRoute";
+import BlogPreview from "../Dashboard/ContentManagement/BlogPreview";
 
 // Replace with your Stripe publishable key
 const stripePromise = loadStripe(
@@ -129,6 +130,10 @@ const Router = () => {
         {
           path: "/dashboard/content-management/edit-blog/:id",
           element: <EditBlog></EditBlog>,
+        },
+        {
+          path: "/dashboard/content-management/blog-preview/:id",
+          element: <BlogPreview></BlogPreview>,
         },
         // Donor Dashboard
         {
