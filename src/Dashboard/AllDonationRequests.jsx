@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import useAxiosBase from "../Hooks/useAxiosBase";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Loading from "../Components/Utilities/Loading";
+import { Link } from "react-router";
 
 export default function AllDonationRequests() {
   const axiosBase = useAxiosBase();
@@ -47,6 +48,25 @@ export default function AllDonationRequests() {
       axios.get(`/src/Data/district.json`).then((res) => res?.data[2]?.data),
   });
 
+  // handle status
+
+  const handleDonationStatus = (id, newStatus) => {
+    const dataToUpdate = {
+      id,
+      newStatus,
+    };
+    statusMutation.mutate(dataToUpdate);
+  };
+
+  const statusMutation = useMutation({
+    mutationFn: (dataToUpdate) =>
+      axiosBase
+        .patch("/inprogress-to-status-update", dataToUpdate)
+        .then((res) => res.data),
+    onSuccess: (res) => {
+      setStatus(res);
+    },
+  });
   if (loading) {
     return <Loading></Loading>;
   }
@@ -90,16 +110,53 @@ export default function AllDonationRequests() {
                   <td>{new Date(request.donationDate).toLocaleDateString()}</td>
                   <td>{request.donationTime}</td>
 
-                  <td>{request.bloodGroup}</td>
-                  <td>{request.status}</td>
-                  <td className="grid grid-cols-2 gap-1 items-center justify-center">
-                    <button className="btn btn-success btn-xs">Done</button>
-                    <button className="btn btn-error btn-xs">Cancel</button>
-                    <button className="btn btn-info btn-xs">Edit</button>
-                    <button className="btn btn-error btn-xs">Delete</button>
-                    <button className="btn btn-neutral btn-xs col-span-2">
-                      View
-                    </button>
+                  <td>
+                    <span className="bg-red-600 text-white p-2 rounded-lg">
+                      {request.bloodGroup}
+                    </span>
+                  </td>
+                  <td>
+                    <span className=" bg-amber-400">
+                      {request.status[0].toUpperCase() +
+                        request.status.slice(1)}
+                    </span>
+                  </td>
+                  <td>
+                    <div className="grid grid-cols-2 gap-1 items-center justify-center">
+                      {request.status === "inprogress" && (
+                        <>
+                          <button
+                            onClick={() =>
+                              handleDonationStatus(request._id, "done")
+                            }
+                            className="btn btn-success btn-sm bg-primary text-white border-none">
+                            Done
+                          </button>
+                          <button
+                            onClick={() =>
+                              handleDonationStatus(request._id, "cancel")
+                            }
+                            className="btn btn-error btn-sm bg-accent text-white border-none">
+                            Cancel
+                          </button>
+                        </>
+                      )}
+                      {request.status === "pending" && (
+                        <>
+                          <button className="btn btn-info btn-sm border">
+                            Edit
+                          </button>
+                          <button className="btn btn-error btn-sm border">
+                            Delete
+                          </button>
+                        </>
+                      )}
+                      <Link
+                        to={`/dashboard/view-donation-request-details/${request._id}`}
+                        className="btn btn-neutral btn-sm border col-span-2">
+                        View
+                      </Link>
+                    </div>
                   </td>
                 </tr>
               ))}

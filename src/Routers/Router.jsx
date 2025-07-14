@@ -27,6 +27,7 @@ import DonationPayment from "../Pages/Funding/DonationPayment";
 import Forbidden from "../Pages/Forbidden/Forbidden";
 import AdminRoute from "../PrivateRoutes/RoleBaseRoute/AdminRoute";
 import BlogPreview from "../Dashboard/ContentManagement/BlogPreview";
+import ViewDonationRequestDetails from "../Dashboard/ViewDonationRequestDetails";
 
 // Replace with your Stripe publishable key
 const stripePromise = loadStripe(
@@ -118,6 +119,10 @@ const Router = () => {
         {
           path: "/dashboard/all-donation-requests",
           element: <AllDonationRequests></AllDonationRequests>,
+        },
+        {
+          path: "/dashboard/view-donation-request-details/:id",
+          element: <ViewDonationRequestDetails></ViewDonationRequestDetails>,
         },
         {
           path: "/dashboard/content-management/add-blog",

@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import useAxiosBase from "../Hooks/useAxiosBase";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import useAuth from "../Hooks/useAuth";
+import { Link } from "react-router";
+import Loading from "../Components/Utilities/Loading";
 
 export default function MyDonationRequests() {
   const axiosBase = useAxiosBase();
@@ -10,6 +12,8 @@ export default function MyDonationRequests() {
   const [itemPerPage, setItemPerPage] = useState(3);
   const [currentPage, setCurrentPage] = useState(0);
   const [requests, setRequests] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [status, setStatus] = useState("");
   const { user } = useAuth();
   // Pagination
   const pages = [...Array(Math.ceil(count / itemPerPage)).keys()];
@@ -20,22 +24,24 @@ export default function MyDonationRequests() {
       .then((res) => setCount(res.data.count));
   }, []);
 
-  console.log(count);
-
   const handleTotalNumberOfItem = (e) => {
     setItemPerPage(e.target.value);
     setCurrentPage(0);
   };
   //   Load all donation request
   useEffect(() => {
+    setLoading(true);
     axiosBase
       .get(
         `/my-donation-requests?email=${user?.email}&limit=${itemPerPage}&skip=${
           parseInt(currentPage) * parseInt(itemPerPage)
         }`
       )
-      .then((res) => setRequests(res.data));
-  }, [currentPage, itemPerPage]);
+      .then((res) => {
+        setRequests(res.data);
+        setLoading(false);
+      });
+  }, [currentPage, itemPerPage, status]);
 
   // Load District
 
@@ -45,6 +51,28 @@ export default function MyDonationRequests() {
       axios.get(`/src/Data/district.json`).then((res) => res?.data[2]?.data),
   });
 
+  // handle status
+  const handleDonationStatus = (id, newStatus) => {
+    const dataToUpdate = {
+      id,
+      newStatus,
+    };
+    statusMutation.mutate(dataToUpdate);
+  };
+
+  const statusMutation = useMutation({
+    mutationFn: (dataToUpdate) =>
+      axiosBase
+        .patch("/inprogress-to-status-update", dataToUpdate)
+        .then((res) => res.data),
+    onSuccess: (res) => {
+      setStatus(res);
+    },
+  });
+
+  if (loading) {
+    return <Loading></Loading>;
+  }
   return (
     <>
       <div className="bg-slate-50 p-4 shadow rounded">
@@ -52,7 +80,7 @@ export default function MyDonationRequests() {
           All Donation Requests
         </h2>
         <div className="overflow-x-auto">
-          <table className="table table-sm table-pin-rows table-pin-cols">
+          <table className="table table-md table-pin-rows table-pin-cols">
             <thead>
               <tr>
                 <th className="bg-white">No.</th>
@@ -84,16 +112,53 @@ export default function MyDonationRequests() {
                   <td>{new Date(request.donationDate).toLocaleDateString()}</td>
                   <td>{request.donationTime}</td>
 
-                  <td>{request.bloodGroup}</td>
-                  <td>{request.status}</td>
-                  <td className="grid grid-cols-2 gap-1 items-center justify-center">
-                    <button className="btn btn-success btn-xs">Done</button>
-                    <button className="btn btn-error btn-xs">Cancel</button>
-                    <button className="btn btn-info btn-xs">Edit</button>
-                    <button className="btn btn-error btn-xs">Delete</button>
-                    <button className="btn btn-neutral btn-xs col-span-2">
-                      View
-                    </button>
+                  <td>
+                    <span className="bg-red-600 text-white p-2 rounded-lg">
+                      {request.bloodGroup}
+                    </span>
+                  </td>
+                  <td>
+                    <span className=" bg-amber-400">
+                      {request.status[0].toUpperCase() +
+                        request.status.slice(1)}
+                    </span>
+                  </td>
+                  <td>
+                    <div className="grid grid-cols-2 gap-1 items-center justify-center">
+                      {request.status === "inprogress" && (
+                        <>
+                          <button
+                            onClick={() =>
+                              handleDonationStatus(request._id, "done")
+                            }
+                            className="btn btn-success btn-sm bg-primary text-white border-none">
+                            Done
+                          </button>
+                          <button
+                            onClick={() =>
+                              handleDonationStatus(request._id, "cancel")
+                            }
+                            className="btn btn-error btn-sm bg-accent text-white border-none">
+                            Cancel
+                          </button>
+                        </>
+                      )}
+                      {request.status === "pending" && (
+                        <>
+                          <button className="btn btn-info btn-sm border">
+                            Edit
+                          </button>
+                          <button className="btn btn-error btn-sm border">
+                            Delete
+                          </button>
+                        </>
+                      )}
+                      <Link
+                        to={`/dashboard/view-donation-request-details/${request._id}`}
+                        className="btn btn-neutral btn-sm border col-span-2">
+                        View
+                      </Link>
+                    </div>
                   </td>
                 </tr>
               ))}
