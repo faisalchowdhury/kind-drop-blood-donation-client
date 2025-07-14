@@ -8,6 +8,7 @@ import axios from "axios";
 import useAuth from "../../Hooks/useAuth";
 import Swal from "sweetalert2";
 import useAxiosBase from "../../Hooks/useAxiosBase";
+import useNotification from "../../Hooks/useNotification";
 export default function Registration() {
   const { createAccount, updateUserProfile } = useAuth();
   const [currentDistrict, setCurrentDistrict] = useState([]);
@@ -15,7 +16,7 @@ export default function Registration() {
   const [loading, setLoading] = useState(false);
   const axiosBase = useAxiosBase();
   const navigate = useNavigate();
-
+  const notification = useNotification();
   const {
     register,
     handleSubmit,
@@ -69,31 +70,34 @@ export default function Registration() {
 
   // handle registration submit
   const submitRegistration = async (data) => {
-    const { name, email, password } = data;
-    const imageInfo = await handleUploadToCloudinary(selectedFile);
-    const userInformationDb = {
-      name,
-      email,
-      password,
-      district_id: data.district,
-      upazila: data.upazila,
-      image_url: imageInfo.secure_url,
-      blood_group: data.blood_group,
-      status: "active",
-      role: "donor",
-      creation_date: new Date().toISOString(),
-    };
-    createAccount(email, password)
-      .then((result) => {
-        if (result?.user) {
-          updateUserProfile(name, imageInfo.secure_url)
-            .then(() => {
-              registerMutation.mutate(userInformationDb);
-            })
-            .catch((err) => console.log("something went wrong"));
-        }
-      })
-      .catch((err) => console.log(err));
+    if (data.password === data.confirm_password) {
+      const { name, email, password } = data;
+      const imageInfo = await handleUploadToCloudinary(selectedFile);
+      const userInformationDb = {
+        name,
+        email,
+        district_id: data.district,
+        upazila: data.upazila,
+        image_url: imageInfo.secure_url,
+        blood_group: data.blood_group,
+        status: "active",
+        role: "donor",
+        creation_date: new Date().toISOString(),
+      };
+      createAccount(email, password)
+        .then((result) => {
+          if (result?.user) {
+            updateUserProfile(name, imageInfo.secure_url)
+              .then(() => {
+                registerMutation.mutate(userInformationDb);
+              })
+              .catch((err) => console.log("something went wrong"));
+          }
+        })
+        .catch((err) => console.log(err));
+    } else {
+      notification.error("Password and confirm password must be same");
+    }
   };
 
   const registerMutation = useMutation({

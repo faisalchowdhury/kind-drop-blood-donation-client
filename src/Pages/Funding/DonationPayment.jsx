@@ -85,98 +85,102 @@ export default function DonationPayment() {
   isLoading && <Loading></Loading>;
   return (
     <>
-      <div className=" mx-auto py-10  space-y-6">
-        <div className="grid md:grid-cols-3 items-center gap-10">
-          <div className="col-span-2 space-y-5">
-            <h2 className="text-4xl text-accent font-semibold">
-              {" "}
-              Your Support Can Save Lives!
-            </h2>
-            <p>
-              Every day, countless individuals depend on our organization for
-              timely blood donations and emergency support. Your contribution,
-              no matter how small, helps us reach more people, save lives, and
-              continue this mission of kindness and hope. <br />
-              By donating today, you are not just giving funds — you are giving
-              hope, health, and a second chance to someone in need.
-            </p>
-          </div>
-          <div className="bg-white shadow rounded p-6 space-y-4">
-            <h2 className="text-xl font-semibold ">Donate Now</h2>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <input
-                type="text"
-                value={user?.displayName || ""}
-                readOnly
-                className="input w-full border rounded"
-                placeholder="Name"
-              />
-              <input
-                type="email"
-                value={user?.email || ""}
-                readOnly
-                className="input  w-full border rounded"
-                placeholder="Email"
-              />
-              <input
-                type="number"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-                placeholder="Enter amount (USD)"
-                required
-                className="input w-full border rounded"
-              />
-              <div className="border p-2 rounded">
-                <CardElement />
-              </div>
-              <button
-                disabled={!stripe || processing}
-                type="submit"
-                className="btn btn-primary text-white w-full">
-                {processing ? "Processing..." : "Donate Now"}
-              </button>
-            </form>
+      <div className="my-20">
+        <div className=" mx-auto  py-10  space-y-6">
+          <div className="grid md:grid-cols-3 items-center gap-10">
+            <div className="col-span-2 space-y-5">
+              <h2 className="text-4xl text-accent font-semibold">
+                {" "}
+                Your Support Can Save Lives!
+              </h2>
+              <p>
+                Every day, countless individuals depend on our organization for
+                timely blood donations and emergency support. Your contribution,
+                no matter how small, helps us reach more people, save lives, and
+                continue this mission of kindness and hope. <br />
+                By donating today, you are not just giving funds — you are
+                giving hope, health, and a second chance to someone in need.
+              </p>
+            </div>
+            <div className="bg-white shadow rounded p-6 space-y-4">
+              <h2 className="text-xl font-semibold ">Donate Now</h2>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <input
+                  type="text"
+                  value={user?.displayName || ""}
+                  readOnly
+                  className="input w-full border rounded"
+                  placeholder="Name"
+                />
+                <input
+                  type="email"
+                  value={user?.email || ""}
+                  readOnly
+                  className="input  w-full border rounded"
+                  placeholder="Email"
+                />
+                <input
+                  type="number"
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
+                  placeholder="Enter amount (USD)"
+                  required
+                  className="input w-full border rounded"
+                />
+                <div className="border p-2 rounded">
+                  <CardElement />
+                </div>
+                <button
+                  disabled={!stripe || processing}
+                  type="submit"
+                  className="btn btn-primary text-white w-full">
+                  {processing ? "Processing..." : "Donate Now"}
+                </button>
+              </form>
+            </div>
           </div>
         </div>
-      </div>
-      <div>
-        <div className="bg-white shadow rounded p-6">
-          <h3 className="text-lg font-semibold mb-4 text-center">
-            Donors Who Have Funded Us
-          </h3>
+        <div>
+          <div className="bg-white shadow rounded p-6">
+            <h3 className="text-lg font-semibold mb-4 text-center">
+              Donors Who Have Funded Us
+            </h3>
 
-          {donations.length === 0 ? (
-            <p className="text-center text-gray-500">No donations yet.</p>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="table table-lg">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Amount (USD)</th>
-                    <th>Date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {donations.map((donor, index) => (
-                    <tr
-                      key={donor._id || index}
-                      className={index % 2 === 0 ? "bg-white" : "bg-slate-100"}>
-                      <td>{index + 1}</td>
-                      <td>{donor.name}</td>
-                      <td>{donor.email}</td>
-                      <td>${donor.amount.toFixed(2)}</td>
-                      <td>
-                        {new Date(donor.depositDate).toLocaleDateString()}
-                      </td>
+            {donations.length === 0 ? (
+              <p className="text-center text-gray-500">No donations yet.</p>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="table table-lg">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Amount (USD)</th>
+                      <th>Date</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
+                  </thead>
+                  <tbody>
+                    {donations.map((donor, index) => (
+                      <tr
+                        key={donor._id || index}
+                        className={
+                          index % 2 === 0 ? "bg-white" : "bg-slate-100"
+                        }>
+                        <td>{index + 1}</td>
+                        <td>{donor.name}</td>
+                        <td>{donor.email}</td>
+                        <td>${donor.amount.toFixed(2)}</td>
+                        <td>
+                          {new Date(donor.depositDate).toLocaleDateString()}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </>

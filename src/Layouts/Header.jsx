@@ -1,14 +1,23 @@
-import React from "react";
-import { Link, NavLink } from "react-router";
+import React, { useRef, useState } from "react";
+import { Link, NavLink, useNavigate } from "react-router";
 import Logo from "../Components/Utilities/Logo";
 import LogoLight from "../assets/Logos/logo-light.png";
 import useAuth from "../Hooks/useAuth";
+import useNotification from "../Hooks/useNotification";
 
 const Header = () => {
+  const { user } = useAuth();
+  const [open, setOpen] = useState(false);
+  const dropdownRef = useRef();
+  const notification = useNotification();
+  const navigate = useNavigate();
   const { signOutUser } = useAuth();
   const logoutUser = () => {
     signOutUser()
-      .then(() => console.log("Logout"))
+      .then(() => {
+        navigate("/login");
+        notification.success("Logout successful");
+      })
       .catch((err) => console.log(err));
   };
   const menu = (
@@ -19,6 +28,15 @@ const Header = () => {
       <li>
         <NavLink to={"/all-blogs"}>Blogs</NavLink>
       </li>
+      {user ? (
+        <li>
+          <NavLink to={"/funding-donation"}>Funding</NavLink>
+        </li>
+      ) : (
+        <li>
+          <NavLink to={"/login"}>Login</NavLink>
+        </li>
+      )}
     </>
   );
 
@@ -55,16 +73,50 @@ const Header = () => {
 
         <div className="navbar-end hidden lg:flex space-x-2">
           <ul className="menu menu-horizontal px-1 text-primary">{menu}</ul>
-          <Link
-            to="/registration"
-            className="btn bg-accent hover:bg-primary duration-500 text-white border-none rounded-full ">
-            Join as a donor
-          </Link>
-          <button
-            onClick={logoutUser}
-            className="btn bg-primary hover:bg-accent duration-500 text-white border-none rounded-full ">
-            Logout
-          </button>
+          {/* Dropdown */}
+          {user ? (
+            <div className="relative inline-block text-left" ref={dropdownRef}>
+              <div>
+                <button
+                  onClick={() => setOpen(!open)}
+                  className="flex items-center focus:outline-none">
+                  <img
+                    src={
+                      user?.photoURL ||
+                      "https://i.ibb.co/2y8Yw4V/default-avatar.png"
+                    }
+                    alt="User Avatar"
+                    className="w-10 h-10 rounded-full  shadow"
+                  />
+                </button>
+              </div>
+
+              {open && (
+                <div className="absolute right-0 mt-2 w-48 bg-white border rounded shadow z-50">
+                  <div className="py-1">
+                    <Link
+                      to="/dashboard"
+                      className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                      Dashboard
+                    </Link>
+                    <button
+                      onClick={logoutUser}
+                      className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100">
+                      Logout
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : (
+            <Link
+              to="/registration"
+              className="btn bg-accent hover:bg-primary duration-500 text-white border-none rounded-full ">
+              Join as a donor
+            </Link>
+          )}
+
+          {/* Dropdown */}
         </div>
       </div>
     </div>
