@@ -1,12 +1,14 @@
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import Lottie from "lottie-react";
 import loginAnimation from "../../assets/Lottie/login.json";
 import useAuth from "../../Hooks/useAuth";
 import { useForm } from "react-hook-form";
+import useNotification from "../../Hooks/useNotification";
 
 export default function Login() {
   const { userLogin, user } = useAuth();
-  console.log(user);
+  const notification = useNotification();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -14,7 +16,10 @@ export default function Login() {
   } = useForm();
   const loginUserAuthentication = (data) => {
     userLogin(data?.email, data?.password)
-      .then((result) => console.log(result))
+      .then((result) => {
+        notification.success("Login successful");
+        navigate("/dashboard");
+      })
       .catch((err) => console.log(err));
   };
 

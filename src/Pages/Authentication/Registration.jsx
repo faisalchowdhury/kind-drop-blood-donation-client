@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import Lottie from "lottie-react";
 import registerAnimation from "../../assets/Lottie/registration.json";
 import { useForm } from "react-hook-form";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import useAuth from "../../Hooks/useAuth";
 import Swal from "sweetalert2";
@@ -12,7 +12,10 @@ export default function Registration() {
   const { createAccount, updateUserProfile } = useAuth();
   const [currentDistrict, setCurrentDistrict] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [loading, setLoading] = useState(false);
   const axiosBase = useAxiosBase();
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -52,6 +55,7 @@ export default function Registration() {
   };
   // handle Cloudinary upload
   const handleUploadToCloudinary = async (imageFile) => {
+    setLoading(true);
     const formData = new FormData();
     formData.append("file", imageFile);
     formData.append("upload_preset", "unsigned_preset");
@@ -84,22 +88,29 @@ export default function Registration() {
         if (result?.user) {
           updateUserProfile(name, imageInfo.secure_url)
             .then(() => {
-              axiosBase
-                .post("/add-user", userInformationDb)
-                .then((res) => console.log(res.data));
-              Swal.fire({
-                position: "center",
-                icon: "success",
-                title: "User have been created successfully",
-                showConfirmButton: false,
-                timer: 1500,
-              });
+              registerMutation.mutate(userInformationDb);
             })
             .catch((err) => console.log("something went wrong"));
         }
       })
       .catch((err) => console.log(err));
   };
+
+  const registerMutation = useMutation({
+    mutationFn: (userInformationDb) =>
+      axiosBase.post("/add-user", userInformationDb),
+    onSuccess: () => {
+      setLoading(false);
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "User have been created successfully",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      navigate("/dashboard");
+    },
+  });
 
   return (
     <div className="min-h-screen flex flex-col gap-5 md:flex-row">
@@ -223,9 +234,12 @@ export default function Registration() {
             </div>
 
             <button
+              disabled={loading}
               type="submit"
-              className="col-span-1 md:col-span-2 bg-accent hover:bg-accent/90 text-white font-semibold py-2 rounded transition mt-2">
-              Register
+              className={`col-span-1 md:col-span-2 bg-accent hover:bg-accent/90 text-white font-semibold py-2 rounded transition mt-2 ${
+                loading ? "bg-red-300" : ""
+              }`}>
+              {loading ? "Processing..." : "Register"}
             </button>
           </form>
 
