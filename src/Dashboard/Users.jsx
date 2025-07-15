@@ -4,10 +4,13 @@ import useAxiosBase from "../Hooks/useAxiosBase";
 import Swal from "sweetalert2";
 import { FaTrashAlt } from "react-icons/fa";
 import Loading from "../Components/Utilities/Loading";
+import useAxiosSecure from "../Hooks/useAxiosSecure";
+import useAuth from "../Hooks/useAuth";
 
 const Users = () => {
   const axiosBase = useAxiosBase();
-
+  const axiosSecure = useAxiosSecure();
+  const { user } = useAuth();
   // Pagination
   const [itemPerPage, setItemPerPage] = useState(5);
   const [count, setCount] = useState(0);
@@ -32,8 +35,8 @@ const Users = () => {
   } = useQuery({
     queryKey: ["users", currentPage, itemPerPage],
     queryFn: async () => {
-      const result = await axiosBase.get(
-        `/users?limit=${itemPerPage}&skip=${
+      const result = await axiosSecure.get(
+        `/users?email=${user?.email}&limit=${itemPerPage}&skip=${
           parseInt(itemPerPage) * parseInt(currentPage)
         }`
       );

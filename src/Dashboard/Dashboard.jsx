@@ -4,11 +4,14 @@ import { BiSolidDonateBlood, BiSolidDonateHeart } from "react-icons/bi";
 import { FaHandsHelping } from "react-icons/fa";
 import useAxiosBase from "../Hooks/useAxiosBase";
 import { useQuery } from "@tanstack/react-query";
+import useAuth from "../Hooks/useAuth";
+import RecentDonationRequests from "./DonorOnlyComponents/RecentDonationRequests";
 
 const Dashboard = () => {
   const [fundCount, setFundCount] = useState(0);
   const [donationCount, setDonationCount] = useState(0);
   const [pendingDonationCount, setPendingDonationCount] = useState(0);
+  const { user } = useAuth();
   const axiosBase = useAxiosBase();
   // Total user
   useEffect(() => {
@@ -40,7 +43,8 @@ const Dashboard = () => {
   return (
     <>
       <div className="space-y-5">
-        <div className="text-4xl">Welcome to dashboard</div>
+        <div className="text-4xl">Welcome {user.displayName}</div>
+        {/* Admin Only Component */}
         <div className="grid gap-5 md:grid-cols-4">
           <div className="p-5 flex gap-5 items-center rounded-lg shadow  border bg-sky-100 border-slate-600 border-dashed ">
             <FaUsersLine size={40} />
@@ -78,6 +82,8 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
+        {/* Donor Only Component */}
+        <RecentDonationRequests></RecentDonationRequests>
       </div>
     </>
   );

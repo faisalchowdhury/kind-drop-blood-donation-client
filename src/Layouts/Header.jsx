@@ -7,6 +7,7 @@ import useNotification from "../Hooks/useNotification";
 
 const Header = () => {
   const { user } = useAuth();
+
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef();
   const notification = useNotification();

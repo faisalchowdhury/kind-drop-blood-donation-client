@@ -72,9 +72,6 @@ export default function Search() {
   }
 
   {
-    /* Show default message before user clicks search */
-  }
-  {
     !triggerSearch && (
       <p className="text-center text-gray-500 mt-4">
         Please select your search criteria and click the search button to find
