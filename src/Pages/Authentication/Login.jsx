@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router";
+import { Link, Navigate, useNavigate } from "react-router";
 import Lottie from "lottie-react";
 import loginAnimation from "../../assets/Lottie/login.json";
 import useAuth from "../../Hooks/useAuth";
@@ -22,6 +22,10 @@ export default function Login() {
       })
       .catch((err) => console.log(err));
   };
+
+  if (user) {
+    return <Navigate to={"/dashboard"}></Navigate>;
+  }
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row">

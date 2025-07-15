@@ -54,16 +54,19 @@ export default function DashboardLayout() {
       path: "/dashboard/my-donation-requests",
       icon: <FaHandHoldingHeart className="w-5 h-5 mr-2" />,
     },
-
-    // Admin and volunteer routes
-
-    ...(userRole.role === "admin" || userRole.role === "volunteer"
+    ...(userRole.role === "admin"
       ? [
           {
             name: "Users",
             path: "/dashboard/users",
             icon: <FaUsersGear className="w-5 h-5 mr-2" />,
           },
+        ]
+      : []),
+    // Admin and volunteer routes
+
+    ...(userRole.role === "admin" || userRole.role === "volunteer"
+      ? [
           {
             name: "Donation Requests",
             path: "/dashboard/all-donation-requests",

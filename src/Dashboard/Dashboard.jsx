@@ -52,48 +52,45 @@ const Dashboard = () => {
         <div className="text-4xl">Welcome {user.displayName}</div>
         {/* Admin Only Component */}
 
-        {role === "admin" ||
-          (role === "volunteer" && (
-            <div className="grid gap-5 md:grid-cols-4">
-              <div className="p-5 flex gap-5 items-center rounded-lg shadow  border bg-sky-100 border-slate-600 border-dashed ">
-                <FaUsersLine size={40} />
-                <div>
-                  <h3 className="text-xl font-medium text-primary">
-                    Total User
-                  </h3>
-                  <p className="text-2xl">{fundCount}</p>
-                </div>
-              </div>
-              <div className="p-5 flex gap-5 items-center rounded-lg shadow  border bg-sky-100 border-slate-600 border-dashed ">
-                <BiSolidDonateHeart size={40} />
-                <div>
-                  <h3 className="text-xl font-medium text-primary">
-                    Total Funding
-                  </h3>
-                  <p className="text-2xl">{totalAmount} $</p>
-                </div>
-              </div>
-              <div className="p-5 flex gap-5 items-center rounded-lg shadow  border bg-sky-100 border-slate-600 border-dashed ">
-                <BiSolidDonateBlood size={40} />
-                <div>
-                  <h3 className="text-xl font-medium text-primary">
-                    Total request
-                  </h3>
-                  <p className="text-2xl">{donationCount}</p>
-                </div>
-              </div>
-
-              <div className="p-5 flex gap-5 items-center rounded-lg shadow  border bg-sky-100 border-slate-600 border-dashed ">
-                <FaHandsHelping size={40} />
-                <div>
-                  <h3 className="text-xl font-medium text-primary">
-                    Pending request
-                  </h3>
-                  <p className="text-2xl">{pendingDonationCount}</p>
-                </div>
+        {(role === "admin" || role === "volunteer") && (
+          <div className="grid gap-5 md:grid-cols-4">
+            <div className="p-5 flex gap-5 items-center rounded-lg shadow  border bg-sky-100 border-slate-600 border-dashed ">
+              <FaUsersLine size={40} />
+              <div>
+                <h3 className="text-xl font-medium text-primary">Total User</h3>
+                <p className="text-2xl">{fundCount}</p>
               </div>
             </div>
-          ))}
+            <div className="p-5 flex gap-5 items-center rounded-lg shadow  border bg-sky-100 border-slate-600 border-dashed ">
+              <BiSolidDonateHeart size={40} />
+              <div>
+                <h3 className="text-xl font-medium text-primary">
+                  Total Funding
+                </h3>
+                <p className="text-2xl">{totalAmount} $</p>
+              </div>
+            </div>
+            <div className="p-5 flex gap-5 items-center rounded-lg shadow  border bg-sky-100 border-slate-600 border-dashed ">
+              <BiSolidDonateBlood size={40} />
+              <div>
+                <h3 className="text-xl font-medium text-primary">
+                  Total request
+                </h3>
+                <p className="text-2xl">{donationCount}</p>
+              </div>
+            </div>
+
+            <div className="p-5 flex gap-5 items-center rounded-lg shadow  border bg-sky-100 border-slate-600 border-dashed ">
+              <FaHandsHelping size={40} />
+              <div>
+                <h3 className="text-xl font-medium text-primary">
+                  Pending request
+                </h3>
+                <p className="text-2xl">{pendingDonationCount}</p>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Donor Only Component */}
         {role === "donor" && <RecentDonationRequests></RecentDonationRequests>}

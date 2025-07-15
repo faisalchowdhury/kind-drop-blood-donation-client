@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link, Navigate, useNavigate } from "react-router";
 import Lottie from "lottie-react";
 import registerAnimation from "../../assets/Lottie/registration.json";
 import { useForm } from "react-hook-form";
@@ -10,7 +10,7 @@ import Swal from "sweetalert2";
 import useAxiosBase from "../../Hooks/useAxiosBase";
 import useNotification from "../../Hooks/useNotification";
 export default function Registration() {
-  const { createAccount, updateUserProfile } = useAuth();
+  const { createAccount, updateUserProfile, user } = useAuth();
   const [currentDistrict, setCurrentDistrict] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -116,6 +116,9 @@ export default function Registration() {
     },
   });
 
+  if (user) {
+    return <Navigate to={"/dashboard"}></Navigate>;
+  }
   return (
     <div className="min-h-screen flex flex-col gap-5 md:flex-row">
       {/* Left Side: Registration Form */}

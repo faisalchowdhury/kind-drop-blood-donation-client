@@ -5,9 +5,15 @@ import useAxiosBase from "../../Hooks/useAxiosBase";
 import { Link } from "react-router";
 import Swal from "sweetalert2";
 import Loading from "../../Components/Utilities/Loading";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import useUserRole from "../../Hooks/useUserRole";
 
 export default function AllBlogs() {
   const axiosBase = useAxiosBase();
+  const axiosSecure = useAxiosSecure();
+  const {
+    userRole: { role },
+  } = useUserRole();
   // Pagination
   const [itemPerPage, setItemPerPage] = useState(5);
   const [count, setCount] = useState(0);
@@ -64,6 +70,56 @@ export default function AllBlogs() {
     },
   });
 
+  // Handle Blog Status
+
+  const makeItDraft = (id) => {
+    Swal.fire({
+      title: "Do you want to draft this blog",
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+      denyButtonText: `No`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        draftMutation.mutate(id);
+      } else if (result.isDenied) {
+      }
+    });
+  };
+
+  const draftMutation = useMutation({
+    mutationFn: (id) =>
+      axiosSecure.patch("/make-blog-draft", { id }).then((res) => res.data),
+    onSuccess: () => {
+      refetch();
+    },
+  });
+
+  const makeItPublish = (id) => {
+    Swal.fire({
+      title: "Do you want to Publish this blog",
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+      denyButtonText: `No`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        publishMutation.mutate(id);
+      } else if (result.isDenied) {
+      }
+    });
+  };
+
+  const publishMutation = useMutation({
+    mutationFn: (id) =>
+      axiosSecure.patch("/make-blog-publish", { id }).then((res) => res.data),
+    onSuccess: () => {
+      refetch();
+    },
+  });
+
   if (isLoading) {
     return <Loading></Loading>;
   }
@@ -81,6 +137,7 @@ export default function AllBlogs() {
             <th>Created On</th>
             <th>Status</th>
             <th>Actions</th>
+            {role === "admin" && <th>Update Status</th>}
           </tr>
         </thead>
         <tbody>
@@ -127,6 +184,24 @@ export default function AllBlogs() {
                   </button>
                 </div>
               </td>
+
+              {role === "admin" && (
+                <td>
+                  {blog.status === "publish" ? (
+                    <button
+                      onClick={() => makeItDraft(blog._id)}
+                      className="btn btn-sm border-none bg-yellow-200 rounded">
+                      Draft
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => makeItPublish(blog._id)}
+                      className="btn btn-sm border-none bg-green-300 rounded">
+                      Publish
+                    </button>
+                  )}
+                </td>
+              )}
             </tr>
           ))}
         </tbody>

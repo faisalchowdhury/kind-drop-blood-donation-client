@@ -5,6 +5,7 @@ import axios from "axios";
 import Loading from "../Components/Utilities/Loading";
 import { Link } from "react-router";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../Hooks/useAxiosSecure";
 
 export default function AllDonationRequests() {
   const axiosBase = useAxiosBase();
@@ -14,6 +15,7 @@ export default function AllDonationRequests() {
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState("");
+  const axiosSecure = useAxiosSecure();
   // Pagination
   const pages = [...Array(Math.ceil(count / itemPerPage)).keys()];
 
@@ -30,7 +32,7 @@ export default function AllDonationRequests() {
   //   Load all donation request
   useEffect(() => {
     setLoading(true);
-    axiosBase
+    axiosSecure
       .get(
         `/all-donation-requests?limit=${itemPerPage}&skip=${
           parseInt(currentPage) * parseInt(itemPerPage)
@@ -62,7 +64,7 @@ export default function AllDonationRequests() {
 
   const statusMutation = useMutation({
     mutationFn: (dataToUpdate) =>
-      axiosBase
+      axiosSecure
         .patch("/inprogress-to-status-update", dataToUpdate)
         .then((res) => res.data),
     onSuccess: (res) => {
