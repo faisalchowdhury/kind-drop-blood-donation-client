@@ -29,6 +29,7 @@ import AdminRoute from "../PrivateRoutes/RoleBaseRoute/AdminRoute";
 import BlogPreview from "../Dashboard/ContentManagement/BlogPreview";
 import ViewDonationRequestDetails from "../Dashboard/ViewDonationRequestDetails";
 import EditDonationRequest from "../Dashboard/EditDonationRequest";
+import Search from "../Pages/Search/Search";
 
 // Replace with your Stripe publishable key
 const stripePromise = loadStripe(
@@ -76,6 +77,10 @@ const Router = () => {
               <DonationPayment></DonationPayment>
             </Elements>
           ),
+        },
+        {
+          path: "/search",
+          element: <Search></Search>,
         },
       ],
     },

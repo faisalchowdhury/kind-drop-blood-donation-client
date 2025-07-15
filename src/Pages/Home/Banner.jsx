@@ -1,5 +1,6 @@
 import React from "react";
 import { motion } from "motion/react";
+import { Link } from "react-router";
 const Banner = () => {
   return (
     <section className="my-5">
@@ -27,9 +28,11 @@ const Banner = () => {
               <button className="btn bg-accent hover:bg-primary duration-500 text-white border-none rounded-full">
                 Join as a donor
               </button>
-              <button className="btn bg-primary hover:bg-accent duration-500 text-white border-none rounded-full">
+              <Link
+                to={"/search"}
+                className="btn bg-primary hover:bg-accent duration-500 text-white border-none rounded-full">
                 Search Donors
-              </button>
+              </Link>
             </div>
           </div>
         </motion.div>

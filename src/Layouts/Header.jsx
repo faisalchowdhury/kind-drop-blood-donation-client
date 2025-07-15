@@ -28,6 +28,9 @@ const Header = () => {
       <li>
         <NavLink to={"/all-blogs"}>Blogs</NavLink>
       </li>
+      <li>
+        <NavLink to={"/search"}>Search Donors</NavLink>
+      </li>
       {user ? (
         <li>
           <NavLink to={"/funding-donation"}>Funding</NavLink>
