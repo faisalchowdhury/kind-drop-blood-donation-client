@@ -1,11 +1,11 @@
 import React from "react";
 
 import { Link } from "react-router";
-const Logo = ({ logo }) => {
+const Logo = ({ logo, size = 150 }) => {
   return (
     <div>
       <Link to={"/"}>
-        <img className="w-[150px]" src={logo} alt="" />
+        <img className={`w-[${size}px]`} src={logo} alt="" />
       </Link>
     </div>
   );

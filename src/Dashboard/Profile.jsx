@@ -6,11 +6,13 @@ import useAuth from "../Hooks/useAuth";
 import useAxiosBase from "../Hooks/useAxiosBase";
 import axios from "axios";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../Hooks/useAxiosSecure";
 
 export default function Profile() {
   const { user } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const axiosBase = useAxiosBase();
+  const axiosSecure = useAxiosSecure();
   const [selectedFile, setSelectedFile] = useState(null);
   const [currentDistrict, setCurrentDistrict] = useState([]);
 
@@ -97,7 +99,7 @@ export default function Profile() {
 
   const mutation = useMutation({
     mutationFn: (updatedData) => {
-      return axiosBase.patch(
+      return axiosSecure.patch(
         `/update-user?email=${userData.email}`,
         updatedData
       );

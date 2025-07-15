@@ -7,10 +7,12 @@ import axios from "axios";
 import useAxiosBase from "../Hooks/useAxiosBase";
 import useAuth from "../Hooks/useAuth";
 import Loading from "../Components/Utilities/Loading";
+import useAxiosSecure from "../Hooks/useAxiosSecure";
 
 export default function EditDonationRequest() {
   const { id } = useParams();
   const axiosBase = useAxiosBase();
+  const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
   const [upazilaByDistrict, setUpazilaByDistrict] = useState([]);
 
@@ -46,7 +48,7 @@ export default function EditDonationRequest() {
   const { data: request, isLoading } = useQuery({
     queryKey: ["donationRequest", id],
     queryFn: async () => {
-      const { data } = await axiosBase.get(`/get-donation-request/${id}`);
+      const { data } = await axiosSecure.get(`/get-donation-request/${id}`);
       return data;
     },
     onSuccess: (data) => {
@@ -81,7 +83,7 @@ export default function EditDonationRequest() {
 
   const mutation = useMutation({
     mutationFn: (data) => {
-      return axiosBase.patch(`/update-donation-request/${id}`, data);
+      return axiosSecure.patch(`/update-donation-request/${id}`, data);
     },
     onSuccess: () => {
       Swal.fire({

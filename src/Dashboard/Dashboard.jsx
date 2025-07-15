@@ -6,6 +6,8 @@ import useAxiosBase from "../Hooks/useAxiosBase";
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../Hooks/useAuth";
 import RecentDonationRequests from "./DonorOnlyComponents/RecentDonationRequests";
+import useUserRole from "../Hooks/useUserRole";
+import useAxiosSecure from "../Hooks/useAxiosSecure";
 
 const Dashboard = () => {
   const [fundCount, setFundCount] = useState(0);
@@ -13,6 +15,10 @@ const Dashboard = () => {
   const [pendingDonationCount, setPendingDonationCount] = useState(0);
   const { user } = useAuth();
   const axiosBase = useAxiosBase();
+  const axiosSecure = useAxiosSecure();
+  const {
+    userRole: { role },
+  } = useUserRole();
   // Total user
   useEffect(() => {
     axiosBase.get("/total-users").then((res) => setFundCount(res.data.count));
@@ -45,45 +51,52 @@ const Dashboard = () => {
       <div className="space-y-5">
         <div className="text-4xl">Welcome {user.displayName}</div>
         {/* Admin Only Component */}
-        <div className="grid gap-5 md:grid-cols-4">
-          <div className="p-5 flex gap-5 items-center rounded-lg shadow  border bg-sky-100 border-slate-600 border-dashed ">
-            <FaUsersLine size={40} />
-            <div>
-              <h3 className="text-xl font-medium text-primary">Total User</h3>
-              <p className="text-2xl">{fundCount}</p>
-            </div>
-          </div>
-          <div className="p-5 flex gap-5 items-center rounded-lg shadow  border bg-sky-100 border-slate-600 border-dashed ">
-            <BiSolidDonateHeart size={40} />
-            <div>
-              <h3 className="text-xl font-medium text-primary">
-                Total Funding
-              </h3>
-              <p className="text-2xl">{totalAmount} $</p>
-            </div>
-          </div>
-          <div className="p-5 flex gap-5 items-center rounded-lg shadow  border bg-sky-100 border-slate-600 border-dashed ">
-            <BiSolidDonateBlood size={40} />
-            <div>
-              <h3 className="text-xl font-medium text-primary">
-                Total request
-              </h3>
-              <p className="text-2xl">{donationCount}</p>
-            </div>
-          </div>
 
-          <div className="p-5 flex gap-5 items-center rounded-lg shadow  border bg-sky-100 border-slate-600 border-dashed ">
-            <FaHandsHelping size={40} />
-            <div>
-              <h3 className="text-xl font-medium text-primary">
-                Pending request
-              </h3>
-              <p className="text-2xl">{pendingDonationCount}</p>
+        {role === "admin" ||
+          (role === "volunteer" && (
+            <div className="grid gap-5 md:grid-cols-4">
+              <div className="p-5 flex gap-5 items-center rounded-lg shadow  border bg-sky-100 border-slate-600 border-dashed ">
+                <FaUsersLine size={40} />
+                <div>
+                  <h3 className="text-xl font-medium text-primary">
+                    Total User
+                  </h3>
+                  <p className="text-2xl">{fundCount}</p>
+                </div>
+              </div>
+              <div className="p-5 flex gap-5 items-center rounded-lg shadow  border bg-sky-100 border-slate-600 border-dashed ">
+                <BiSolidDonateHeart size={40} />
+                <div>
+                  <h3 className="text-xl font-medium text-primary">
+                    Total Funding
+                  </h3>
+                  <p className="text-2xl">{totalAmount} $</p>
+                </div>
+              </div>
+              <div className="p-5 flex gap-5 items-center rounded-lg shadow  border bg-sky-100 border-slate-600 border-dashed ">
+                <BiSolidDonateBlood size={40} />
+                <div>
+                  <h3 className="text-xl font-medium text-primary">
+                    Total request
+                  </h3>
+                  <p className="text-2xl">{donationCount}</p>
+                </div>
+              </div>
+
+              <div className="p-5 flex gap-5 items-center rounded-lg shadow  border bg-sky-100 border-slate-600 border-dashed ">
+                <FaHandsHelping size={40} />
+                <div>
+                  <h3 className="text-xl font-medium text-primary">
+                    Pending request
+                  </h3>
+                  <p className="text-2xl">{pendingDonationCount}</p>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          ))}
+
         {/* Donor Only Component */}
-        <RecentDonationRequests></RecentDonationRequests>
+        {role === "donor" && <RecentDonationRequests></RecentDonationRequests>}
       </div>
     </>
   );

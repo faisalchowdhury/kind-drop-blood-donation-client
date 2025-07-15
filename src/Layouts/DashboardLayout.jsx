@@ -92,7 +92,7 @@ export default function DashboardLayout() {
   };
   return (
     <div className="bg-slate-200 md:py-10">
-      <div className="flex bg-slate-50 md:max-w-[1400px] mx-auto min-h-screen md:min-h-[90vh] rounded-lg shadow-2xl">
+      <div className="flex bg-slate-50 md:max-w-[1450px] mx-auto min-h-screen md:min-h-[90vh] rounded-lg shadow-2xl">
         {/* Sidebar */}
         <div
           className={`fixed inset-y-0 left-0 w-64 bg-white shadow-md transform rounded-l-2xl ${
@@ -105,7 +105,10 @@ export default function DashboardLayout() {
             </button>
           </div>
           <nav className="flex flex-col mt-4 space-y-1 p-4">
-            <Logo logo={logoLight}></Logo>
+            <div className="pl-5">
+              {" "}
+              <Logo logo={logoLight} size={150}></Logo>
+            </div>
             {menuItems.map((item) => (
               <Link
                 key={item.name}

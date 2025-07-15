@@ -7,11 +7,13 @@ import axios from "axios";
 import useAxiosBase from "../Hooks/useAxiosBase";
 import Loading from "../Components/Utilities/Loading";
 import useAuth from "../Hooks/useAuth";
+import useAxiosSecure from "../Hooks/useAxiosSecure";
 
 export default function ViewDonationRequestDetails() {
   const { id } = useParams();
   const axiosBase = useAxiosBase();
   const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
 
   const {
     data: request = {},
@@ -20,7 +22,7 @@ export default function ViewDonationRequestDetails() {
   } = useQuery({
     queryKey: ["donationRequest", id],
     queryFn: async () => {
-      const res = await axiosBase.get(`/get-donation-request/${id}`);
+      const res = await axiosSecure.get(`/get-donation-request/${id}`);
       return res.data;
     },
   });

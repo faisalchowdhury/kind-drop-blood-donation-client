@@ -6,10 +6,12 @@ import Loading from "../../Components/Utilities/Loading";
 import axios from "axios";
 import useAuth from "../../Hooks/useAuth";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 export default function DonationRequestDetails() {
   const { id } = useParams();
   const axiosBase = useAxiosBase();
+  const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -20,7 +22,7 @@ export default function DonationRequestDetails() {
   } = useQuery({
     queryKey: ["donationRequest", id],
     queryFn: async () => {
-      const res = await axiosBase.get(`/get-donation-request/${id}`);
+      const res = await axiosSecure.get(`/get-donation-request/${id}`);
       return res.data;
     },
   });

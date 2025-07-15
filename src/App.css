@@ -33,3 +33,8 @@
   color: #060a31 !important;
   font-size: 50px !important;
 }
+
+/* router link active */
+a.active {
+  color: #f03131;
+}

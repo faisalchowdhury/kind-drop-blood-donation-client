@@ -68,7 +68,11 @@ const Router = () => {
         },
         {
           path: "/donation-request-details/:id",
-          Component: DonationRequestDetails,
+          element: (
+            <PrivateRoute>
+              <DonationRequestDetails />
+            </PrivateRoute>
+          ),
         },
         {
           path: "/funding-donation",

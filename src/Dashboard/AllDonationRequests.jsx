@@ -121,6 +121,7 @@ export default function AllDonationRequests() {
                 <td>Time</td>
                 <td>Blood Group</td>
                 <td>Status</td>
+                <td>Donor Information</td>
                 <td>Actions</td>
               </tr>
             </thead>
@@ -149,10 +150,47 @@ export default function AllDonationRequests() {
                     </span>
                   </td>
                   <td>
-                    <span className=" bg-amber-400">
+                    <span className=" ">
                       {request.status[0].toUpperCase() +
                         request.status.slice(1)}
                     </span>
+                  </td>
+                  <td>
+                    {request.status === "inprogress" && (
+                      <>
+                        <div className="bg-slate-200 p-2 border rounded border-dashed w-[150px]">
+                          <p>{request.donorName}</p>
+                          <p>{request.donorEmail}</p>
+                        </div>
+                      </>
+                    )}
+                    {request.status === "pending" && (
+                      <>
+                        <div className="bg-slate-200 p-2 border rounded border-dashed w-[150px]">
+                          <p className="bg-orange-400 p-1 text-white">
+                            Not yet response by anyone
+                          </p>
+                        </div>
+                      </>
+                    )}
+                    {request.status === "cancel" && (
+                      <div className="bg-slate-200 p-2 border rounded border-dashed w-[150px]">
+                        <p className="text-white bg-red-600">
+                          Request canceled
+                        </p>
+                      </div>
+                    )}
+                    {request.status === "done" && (
+                      <>
+                        <div className="bg-slate-200 p-2 border rounded border-dashed w-[150px]">
+                          <p>{request.donorName}</p>
+                          <p>{request.donorEmail}</p>
+                          <p className="text-white bg-green-600">
+                            Donation Success
+                          </p>
+                        </div>
+                      </>
+                    )}
                   </td>
                   <td>
                     <div className="grid grid-cols-2 gap-1 items-center justify-center">
