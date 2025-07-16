@@ -72,18 +72,6 @@ const DonorGuidelines = () => {
         under safe and sterile conditions.
       </p>
 
-      <h2 className="text-xl font-semibold text-primary mt-6 mb-2">
-        7️⃣ Contact for Assistance
-      </h2>
-      <p className="mb-4">
-        If you have questions before or after donation, please reach out:
-      </p>
-      <ul className="list-inside mb-4 text-gray-700">
-        <li>📧 Email: [your-support-email@example.com]</li>
-        <li>📞 Phone: [optional]</li>
-        <li>🏠 Address: [optional]</li>
-      </ul>
-
       <p className="mt-4">
         Thank you for being a hero and making a difference by donating blood.
       </p>

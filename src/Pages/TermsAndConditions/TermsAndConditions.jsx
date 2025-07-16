@@ -101,16 +101,6 @@ const TermsAndConditions = () => {
         These terms are governed by the laws of [Your Country/Region].
       </p>
 
-      <h2 className="text-xl font-semibold text-primary mt-6 mb-2">
-        Contact Us
-      </h2>
-      <p className="mb-2">If you have any questions:</p>
-      <ul className="list-inside mb-4 text-gray-700">
-        <li>📧 Email: [your-support-email@example.com]</li>
-        <li>📞 Phone: [optional]</li>
-        <li>🏠 Address: [optional]</li>
-      </ul>
-
       <p className="mt-4">
         By using our website, you agree to these Terms and Conditions.
       </p>
