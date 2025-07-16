@@ -3,14 +3,9 @@ import Lottie from "lottie-react";
 import contact from "../../assets/Lottie/contact.json";
 export default function Contact() {
   return (
-    <section className="max-w-6xl mx-auto px-4 py-16 grid md:grid-cols-2 gap-8">
+    <section className=" mx-auto my-10 bg-[#f4faff] grid md:grid-cols-5 gap-8  px-20 py-10 rounded-2xl border border-dashed">
       {/* Left Side - Contact Info */}
-      <div className="flex flex-col justify-center space-y-4">
-        <Lottie
-          animationData={contact}
-          loop={true}
-          style={{ width: "250px" }}
-        />
+      <div className="col-span-2 flex flex-col justify-center space-y-4">
         <h1 className="text-3xl md:text-4xl font-semibold text-primary">
           Get in Touch
         </h1>
@@ -20,7 +15,7 @@ export default function Contact() {
         </div>
         <div className="flex items-center space-x-4">
           <FaEnvelope className="text-primary text-xl" />
-          <p className="text-gray-700">contact@lifelink.com</p>
+          <p className="text-gray-700">contact@kinddrop.com</p>
         </div>
         <div className="flex items-center space-x-4">
           <FaPhone className="text-primary text-xl" />
@@ -29,41 +24,36 @@ export default function Contact() {
       </div>
 
       {/* Right Side - Contact Form */}
-      <form className="bg-white p-8 rounded shadow-lg space-y-4">
-        <div>
-          <label className="block text-gray-700 mb-1">Name</label>
-          <input
-            type="text"
-            placeholder="Your name"
-            className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:border-primary"
-          />
+      <form className=" p-8 shadow-lg space-y-4 col-span-3 border-2 border-dashed rounded-2xl border-slate-500 text-white bg-primary">
+        <div className="flex gap-5">
+          <div className="flex-1">
+            <label className="block text-white mb-1">Name</label>
+            <input
+              type="text"
+              placeholder="Your name"
+              className="w-full border border-white rounded px-4 py-2 focus:outline-none focus:border-white"
+            />
+          </div>
+          <div className="flex-1">
+            <label className="block text-white mb-1">Email</label>
+            <input
+              type="email"
+              placeholder="you@example.com"
+              className="w-full border border-white rounded px-4 py-2 focus:outline-none focus:border-white"
+            />
+          </div>
         </div>
+
         <div>
-          <label className="block text-gray-700 mb-1">Email</label>
-          <input
-            type="email"
-            placeholder="you@example.com"
-            className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:border-primary"
-          />
-        </div>
-        <div>
-          <label className="block text-gray-700 mb-1">Subject</label>
-          <input
-            type="text"
-            placeholder="Subject"
-            className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:border-primary"
-          />
-        </div>
-        <div>
-          <label className="block text-gray-700 mb-1">Message</label>
+          <label className="block text-white mb-1">Message</label>
           <textarea
             placeholder="Your message"
-            rows="4"
-            className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:border-primary"></textarea>
+            rows="3"
+            className="w-full border border-white rounded px-4 py-2 focus:outline-none focus:border-white"></textarea>
         </div>
         <button
           type="submit"
-          className="w-full bg-primary text-white rounded px-4 py-2 hover:bg-primary-dark transition">
+          className="w-full  text-white rounded px-4 py-2 hover:bg-primary-dark transition bg-accent">
           Send Message
         </button>
       </form>
