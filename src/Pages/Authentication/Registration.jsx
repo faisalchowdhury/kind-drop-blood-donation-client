@@ -70,34 +70,53 @@ export default function Registration() {
 
   // handle registration submit
   const submitRegistration = async (data) => {
-    if (data.password === data.confirm_password) {
-      const { name, email, password } = data;
-      const imageInfo = await handleUploadToCloudinary(selectedFile);
-      const userInformationDb = {
-        name,
-        email,
-        district_id: data.district,
-        upazila: data.upazila,
-        image_url: imageInfo.secure_url,
-        blood_group: data.blood_group,
-        status: "active",
-        role: "donor",
-        creation_date: new Date().toISOString(),
-      };
-      createAccount(email, password)
-        .then((result) => {
-          if (result?.user) {
-            updateUserProfile(name, imageInfo.secure_url)
-              .then(() => {
-                registerMutation.mutate(userInformationDb);
-              })
-              .catch((err) => console.log("something went wrong"));
-          }
-        })
-        .catch((err) => console.log(err));
-    } else {
-      notification.error("Password and confirm password must be same");
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
+
+    if (!passwordRegex.test(data.password)) {
+      notification.error(
+        "Password must be at least 6 characters long, include one uppercase and one lowercase letter."
+      );
+      return;
     }
+
+    if (data.password !== data.confirm_password) {
+      notification.error("Password and confirm password must be the same.");
+      return;
+    }
+
+    const { name, email, password } = data;
+    const imageInfo = await handleUploadToCloudinary(selectedFile);
+    const userInformationDb = {
+      name,
+      email,
+      district_id: data.district,
+      upazila: data.upazila,
+      image_url: imageInfo.secure_url,
+      blood_group: data.blood_group,
+      status: "active",
+      role: "donor",
+      creation_date: new Date().toISOString(),
+    };
+
+    createAccount(email, password)
+      .then((result) => {
+        if (result?.user) {
+          updateUserProfile(name, imageInfo.secure_url)
+            .then(() => {
+              registerMutation.mutate(userInformationDb);
+            })
+            .catch((err) => {
+              console.log(
+                "Something went wrong while updating user profile",
+                err
+              );
+            });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        notification.error("Registration failed. Please try again.");
+      });
   };
 
   const registerMutation = useMutation({
