@@ -25,7 +25,7 @@ export default function Contact() {
 
       {/* Right Side - Contact Form */}
       <form className=" p-8 shadow-lg space-y-4 col-span-3 border-2 border-dashed rounded-2xl border-slate-500 text-white bg-primary">
-        <div className="flex gap-5">
+        <div className="sm:flex gap-5 space-y-3 sm:space-y-0">
           <div className="flex-1">
             <label className="block text-white mb-1">Name</label>
             <input
