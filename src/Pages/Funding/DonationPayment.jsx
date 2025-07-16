@@ -85,10 +85,10 @@ export default function DonationPayment() {
   isLoading && <Loading></Loading>;
   return (
     <>
-      <div className="my-20">
+      <div className="">
         <div className=" mx-auto  py-10  space-y-6">
           <div className="grid md:grid-cols-3 items-center gap-10">
-            <div className="col-span-2 space-y-5">
+            <div className=" md:col-span-2 space-y-5">
               <h2 className="text-4xl text-accent font-semibold">
                 {" "}
                 Your Support Can Save Lives!
@@ -102,7 +102,7 @@ export default function DonationPayment() {
                 giving hope, health, and a second chance to someone in need.
               </p>
             </div>
-            <div className="bg-white shadow rounded p-6 space-y-4">
+            <div className=" bg-white shadow rounded p-6 space-y-4">
               <h2 className="text-xl font-semibold ">Donate Now</h2>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <input
@@ -140,6 +140,7 @@ export default function DonationPayment() {
             </div>
           </div>
         </div>
+
         <div>
           <div className="bg-white shadow rounded p-6">
             <h3 className="text-lg font-semibold mb-4 text-center">

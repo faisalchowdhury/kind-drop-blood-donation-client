@@ -89,7 +89,7 @@ export default function Search() {
             <div className="max-w-3xl mx-auto   ">
               <form
                 onSubmit={handleSearch}
-                className="grid grid-cols-1 md:grid-cols-3 gap-4 bg-primary text-white p-4 shadow rounded mb-6">
+                className="grid grid-cols-1 sm:grid-cols-3 gap-4 bg-primary text-white p-4 shadow rounded mb-6">
                 <select
                   className="select select-bordered w-full border bg-primary rounded"
                   value={searchData.blood_group}
@@ -144,7 +144,7 @@ export default function Search() {
 
                 <button
                   type="submit"
-                  className="btn btn-primary border rounded md:col-span-3 w-full">
+                  className="btn btn-primary border rounded sm:col-span-3 w-full">
                   Search
                 </button>
               </form>
@@ -176,7 +176,7 @@ export default function Search() {
         {/* Default and no result box */}
         <div>
           {donors.length > 0 && (
-            <div className="grid md:grid-cols-4 gap-4">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {donors.map((donor) => (
                 <div
                   key={donor._id}
