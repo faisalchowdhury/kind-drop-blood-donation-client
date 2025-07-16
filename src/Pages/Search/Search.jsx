@@ -18,7 +18,7 @@ export default function Search() {
   const { data: districts = [] } = useQuery({
     queryKey: ["districts"],
     queryFn: async () => {
-      const res = await axios.get("/src/Data/district.json");
+      const res = await axios.get("/Data/district.json");
       return res.data[2].data;
     },
   });
@@ -26,7 +26,7 @@ export default function Search() {
   const { data: upazilas = [] } = useQuery({
     queryKey: ["upazilas"],
     queryFn: async () => {
-      const res = await axios.get("/src/Data/upazila.json");
+      const res = await axios.get("/Data/upazila.json");
       return res.data[2].data;
     },
   });

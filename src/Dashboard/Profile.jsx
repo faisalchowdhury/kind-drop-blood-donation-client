@@ -34,7 +34,7 @@ export default function Profile() {
   const { data = [] } = useQuery({
     queryKey: ["districts"],
     queryFn: () =>
-      axios.get(`/src/Data/district.json`).then((res) => res?.data[2]?.data),
+      axios.get(`/Data/district.json`).then((res) => res?.data[2]?.data),
   });
 
   const districtName = data.find((dis) => dis.id == userData.district_id);
@@ -43,7 +43,7 @@ export default function Profile() {
   const { data: upazilaData = [], isLoading } = useQuery({
     queryKey: ["upazila"],
     queryFn: async () => {
-      const upazilaData = await axios.get("/src/Data/upazila.json");
+      const upazilaData = await axios.get("/Data/upazila.json");
       return upazilaData?.data[2]?.data;
     },
   });

@@ -30,7 +30,7 @@ export default function EditDonationRequest() {
   const { data: districts = [] } = useQuery({
     queryKey: ["districts"],
     queryFn: async () => {
-      const { data } = await axios.get("/src/Data/district.json");
+      const { data } = await axios.get("/Data/district.json");
       return data?.[2]?.data;
     },
   });
@@ -39,7 +39,7 @@ export default function EditDonationRequest() {
   const { data: upazilas = [] } = useQuery({
     queryKey: ["upazilas"],
     queryFn: async () => {
-      const { data } = await axios.get("/src/Data/upazila.json");
+      const { data } = await axios.get("/Data/upazila.json");
       return data?.[2]?.data;
     },
   });

@@ -28,12 +28,12 @@ export default function Registration() {
   // Load District
   const { data } = useQuery({
     queryKey: ["district"],
-    queryFn: () => axios.get("/src/Data/district.json"),
+    queryFn: () => axios.get("/Data/district.json"),
   });
   // Load Upazila
   const { data: upazilaData } = useQuery({
     queryKey: ["upazila"],
-    queryFn: () => axios.get("/src/Data/upazila.json"),
+    queryFn: () => axios.get("/Data/upazila.json"),
   });
 
   const districts = data?.data[2]?.data;

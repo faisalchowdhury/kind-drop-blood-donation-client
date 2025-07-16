@@ -32,7 +32,7 @@ const RecentDonationRequests = () => {
   const { data: districts = [] } = useQuery({
     queryKey: ["districts"],
     queryFn: () =>
-      axios.get(`/src/Data/district.json`).then((res) => res?.data[2]?.data),
+      axios.get(`/Data/district.json`).then((res) => res?.data[2]?.data),
   });
 
   // handle status
