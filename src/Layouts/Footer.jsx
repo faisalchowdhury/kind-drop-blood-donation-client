@@ -97,24 +97,40 @@ export default function Footer() {
           <h3 className="text-lg font-medium mb-2">Follow Us</h3>
           <ul className="flex space-x-4 text-gray-200 text-xl">
             <li>
-              <Link to="#" className="hover:text-accent" aria-label="Facebook">
+              <a
+                target="_blank"
+                href="https://www.facebook.com/faisal.ahmed.chowdhury.336926/"
+                className="hover:text-accent"
+                aria-label="Facebook">
                 <FaFacebookF />
-              </Link>
+              </a>
             </li>
             <li>
-              <Link to="#" className="hover:text-accent" aria-label="Twitter">
+              <a
+                target="_blank"
+                href="https://x.com/"
+                className="hover:text-accent"
+                aria-label="Twitter">
                 <FaTwitter />
-              </Link>
+              </a>
             </li>
             <li>
-              <Link to="#" className="hover:text-accent" aria-label="Instagram">
+              <a
+                target="_blank"
+                href="https://www.instagram.com/faisal_chowdhury__/"
+                className="hover:text-accent"
+                aria-label="Instagram">
                 <FaInstagram />
-              </Link>
+              </a>
             </li>
             <li>
-              <Link to="#" className="hover:text-accent" aria-label="LinkedIn">
+              <a
+                target="_blank"
+                href="https://www.linkedin.com/in/faisal-chowdhury26/"
+                className="hover:text-accent"
+                aria-label="LinkedIn">
                 <FaLinkedinIn />
-              </Link>
+              </a>
             </li>
           </ul>
         </div>

@@ -31,6 +31,9 @@ import ViewDonationRequestDetails from "../Dashboard/ViewDonationRequestDetails"
 import EditDonationRequest from "../Dashboard/EditDonationRequest";
 import Search from "../Pages/Search/Search";
 import PrivacyPolicy from "../Pages/PrivacyPolicy/PrivacyPolicy";
+import TermsAndConditions from "../Pages/TermsAndConditions/TermsAndConditions";
+import DonorGuidelines from "../Pages/DonorGuidelines/DonorGuidelines";
+import Faq from "../Pages/Faq/Faq";
 
 // Replace with your Stripe publishable key
 const stripePromise = loadStripe(
@@ -70,6 +73,18 @@ const Router = () => {
         {
           path: "/privacy-policy",
           Component: PrivacyPolicy,
+        },
+        {
+          path: "/terms",
+          Component: TermsAndConditions,
+        },
+        {
+          path: "/donor-guidelines",
+          Component: DonorGuidelines,
+        },
+        {
+          path: "/faq",
+          Component: Faq,
         },
         {
           path: "/donation-request-details/:id",
