@@ -18,11 +18,13 @@ export default function AllBlogs() {
   const [itemPerPage, setItemPerPage] = useState(5);
   const [count, setCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
-
+  const [filter, setFilter] = useState("all-blogs");
   const pages = [...Array(Math.ceil(count / itemPerPage)).keys()];
 
   useEffect(() => {
-    axiosBase.get("/total-blogs").then((res) => setCount(res.data.count));
+    axiosBase
+      .get(`/total-blogs?filter=${filter}`)
+      .then((res) => setCount(res.data.count));
   }, []);
 
   const handleItemsPerPage = (e) => {
@@ -35,13 +37,13 @@ export default function AllBlogs() {
     refetch,
     isLoading,
   } = useQuery({
-    queryKey: ["blogs", currentPage, itemPerPage],
+    queryKey: ["blogs", currentPage, itemPerPage, filter],
     queryFn: () =>
       axiosBase
         .get(
           `/all-blogs?limit=${itemPerPage}&skip=${
             parseInt(itemPerPage) * parseInt(currentPage)
-          }`
+          }&filter=${filter}`
         )
         .then((res) => res.data),
   });
@@ -119,6 +121,11 @@ export default function AllBlogs() {
       refetch();
     },
   });
+  const handleBlogFilter = (e) => {
+    setFilter(e.target.value);
+    setCurrentPage(0);
+    refetch();
+  };
 
   if (isLoading) {
     return <Loading></Loading>;
@@ -126,6 +133,18 @@ export default function AllBlogs() {
   return (
     <div className="p-4 bg-white rounded shadow overflow-x-auto">
       <h2 className="text-xl font-semibold mb-4 text-primary">All Blogs</h2>
+      <div className="border p-3 border-slate-300 rounded flex justify-end">
+        <select
+          defaultValue={filter}
+          onChange={handleBlogFilter}
+          className="p-2 border rounded"
+          name=""
+          id="">
+          <option value="all-blogs">All Blogs</option>
+          <option value="publish">Publish</option>
+          <option value="draft">Draft</option>
+        </select>
+      </div>
       <table className="table table-md">
         <thead>
           <tr>

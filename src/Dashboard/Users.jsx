@@ -189,6 +189,7 @@ const Users = () => {
       <div className="overflow-x-auto overflow-y-hidden space-y-5">
         <div className="border p-3 border-slate-300 rounded flex justify-end">
           <select
+            defaultValue={filter}
             onChange={handleUserFilter}
             className="p-2 border rounded"
             name=""
