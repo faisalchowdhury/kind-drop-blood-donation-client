@@ -30,6 +30,7 @@ import BlogPreview from "../Dashboard/ContentManagement/BlogPreview";
 import ViewDonationRequestDetails from "../Dashboard/ViewDonationRequestDetails";
 import EditDonationRequest from "../Dashboard/EditDonationRequest";
 import Search from "../Pages/Search/Search";
+import PrivacyPolicy from "../Pages/PrivacyPolicy/PrivacyPolicy";
 
 // Replace with your Stripe publishable key
 const stripePromise = loadStripe(
@@ -65,6 +66,10 @@ const Router = () => {
         {
           path: "/donation-requests",
           Component: DonationRequests,
+        },
+        {
+          path: "/privacy-policy",
+          Component: PrivacyPolicy,
         },
         {
           path: "/donation-request-details/:id",

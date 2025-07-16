@@ -7,7 +7,7 @@ import Fallback from "../../Components/Fallback/Fallback";
 
 export default function AllBlogs() {
   const axiosBase = useAxiosBase();
-  const [itemPerPage, setItemPerPage] = useState(5);
+  const [itemPerPage, setItemPerPage] = useState(8);
   const [count, setCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
 
@@ -40,7 +40,7 @@ export default function AllBlogs() {
   if (isLoading) return <Loading></Loading>;
 
   return (
-    <div className="py-20 px-2">
+    <div className="py-10 px-2">
       <h2 className="text-2xl font-bold  mb-8 text-primary">Read Blogs</h2>
       {blogs.length === 0 ? (
         <Fallback message={"No blog found"}></Fallback>
@@ -79,7 +79,7 @@ export default function AllBlogs() {
         </div>
       )}
 
-      <div className="flex gap-1 justify-end">
+      <div className="flex gap-1 justify-end my-5">
         {pages.map((page) => (
           <button
             key={page}
@@ -87,7 +87,7 @@ export default function AllBlogs() {
             className={`btn border btn-xs ${
               currentPage == page ? "bg-primary text-white" : ""
             }`}>
-            {page}
+            {page + 1}
           </button>
         ))}
         <select
@@ -95,7 +95,7 @@ export default function AllBlogs() {
           className="text-sm border"
           name=""
           id="">
-          <option>5</option>
+          <option>8</option>
           <option>20</option>
           <option>50</option>
         </select>
