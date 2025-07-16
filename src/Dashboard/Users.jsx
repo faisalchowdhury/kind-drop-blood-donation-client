@@ -15,11 +15,14 @@ const Users = () => {
   const [itemPerPage, setItemPerPage] = useState(5);
   const [count, setCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
-
+  const [filter, setFilter] = useState("all-users");
   const pages = [...Array(Math.ceil(count / itemPerPage)).keys()];
   useEffect(() => {
-    axiosBase.get("/total-users").then((res) => setCount(res.data.count));
-  }, []);
+    axiosBase
+      .get(`/total-users?filter=${filter}`)
+      .then((res) => setCount(res.data.count));
+  }, [filter]);
+
   const handleItemsPerPage = (e) => {
     setItemPerPage(parseInt(e.target.value));
     setCurrentPage(0);
@@ -33,12 +36,12 @@ const Users = () => {
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ["users", currentPage, itemPerPage],
+    queryKey: ["users", currentPage, itemPerPage, filter],
     queryFn: async () => {
       const result = await axiosSecure.get(
         `/users?email=${user?.email}&limit=${itemPerPage}&skip=${
           parseInt(itemPerPage) * parseInt(currentPage)
-        }`
+        }&filter=${filter}`
       );
       return result.data;
     },
@@ -173,13 +176,28 @@ const Users = () => {
     },
   });
 
+  const handleUserFilter = (e) => {
+    setFilter(e.target.value);
+    setCurrentPage(0);
+    refetch();
+  };
   if (isLoading) {
     return <Loading></Loading>;
   }
   return (
     <>
-      <div className="overflow-x-auto overflow-y-hidden">
-        <table className="table">
+      <div className="overflow-x-auto overflow-y-hidden space-y-5">
+        <div className="border p-3 border-slate-300 rounded flex justify-end">
+          <select
+            onChange={handleUserFilter}
+            className="p-2 border rounded"
+            name=""
+            id="">
+            <option value="all-users">All Users</option>
+            <option value="active-users">Active Users</option>
+          </select>
+        </div>
+        <table className="table border border-slate-300 ">
           {/* head */}
           <thead>
             <tr>

@@ -55,10 +55,9 @@ export default function CreateDonationRequest() {
 
   const mutation = useMutation({
     mutationFn: (data) => {
-      return axiosSecure.post(
-        `/create-donation-request?email=${user.email}`,
-        data
-      );
+      return axiosSecure
+        .post(`/create-donation-request?email=${user.email}`, data)
+        .then((res) => res.data);
     },
     onSuccess: (res) => {
       console.log(res);
@@ -71,14 +70,24 @@ export default function CreateDonationRequest() {
       });
       reset();
     },
-    onError: () => {
-      Swal.fire({
-        position: "center",
-        icon: "error",
-        title: "Donation request not created",
-        showConfirmButton: false,
-        timer: 1500,
-      });
+    onError: (res) => {
+      if (res.status === 403) {
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "You are blocked by admin , you can't create any request",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      } else {
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Donation request not created",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
     },
   });
 
