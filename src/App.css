@@ -18,7 +18,7 @@
 /* Slick Slider */
 
 .slider-container {
-  width: 90% !important;
+  width: 100% !important;
   margin: auto;
 }
 .slick-list {
@@ -34,7 +34,16 @@
   font-size: 50px !important;
 }
 
+@media only screen and (max-width: 1400px) {
+  .slick-next::before {
+    font-size: 30px !important;
+  }
+}
+
 /* router link active */
 a.active {
+  color: #f03131;
+}
+a:hover {
   color: #f03131;
 }

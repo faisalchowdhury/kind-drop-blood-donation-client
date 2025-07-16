@@ -3,7 +3,7 @@ import Lottie from "lottie-react";
 import contact from "../../assets/Lottie/contact.json";
 export default function Contact() {
   return (
-    <section className=" mx-auto my-10 bg-[#f4faff] grid md:grid-cols-5 gap-8  px-20 py-10 rounded-2xl border border-dashed">
+    <section className=" mx-auto my-10 bg-[#f4faff] grid md:grid-cols-5 gap-8  px-5 sm:px-10 xl:px-20 py-10 rounded-2xl border border-dashed">
       {/* Left Side - Contact Info */}
       <div className="col-span-2 flex flex-col justify-center space-y-4">
         <h1 className="text-3xl md:text-4xl font-semibold text-primary">
