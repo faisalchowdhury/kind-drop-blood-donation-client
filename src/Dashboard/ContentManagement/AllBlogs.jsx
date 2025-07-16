@@ -66,7 +66,7 @@ export default function AllBlogs() {
   };
 
   const deleteMutation = useMutation({
-    mutationFn: (id) => axiosBase.delete(`/delete-blog/${id}`),
+    mutationFn: (id) => axiosSecure.delete(`/delete-blog/${id}`),
     onSuccess: () => {
       refetch();
     },
@@ -196,11 +196,13 @@ export default function AllBlogs() {
                     className="btn  border-none rounded bg-green-600 text-white btn-xs btn-success">
                     <FaEdit />
                   </Link>
-                  <button
-                    onClick={() => handleDeleteBlog(blog._id)}
-                    className="btn border-none rounded bg-accent text-white btn-xs btn-error">
-                    <FaTrash />
-                  </button>
+                  {role === "admin" && (
+                    <button
+                      onClick={() => handleDeleteBlog(blog._id)}
+                      className="btn border-none rounded bg-accent text-white btn-xs btn-error">
+                      <FaTrash />
+                    </button>
+                  )}
                 </div>
               </td>
 

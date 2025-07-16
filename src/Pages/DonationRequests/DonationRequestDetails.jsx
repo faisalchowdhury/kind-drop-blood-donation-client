@@ -39,7 +39,6 @@ export default function DonationRequestDetails() {
     const donorName = form.donorName.value;
     const donorEmail = form.donorEmail.value;
 
-    // You can call your API here to confirm donation
     const donorInfo = { donorName, donorEmail, donationRequestId: request._id };
     console.log(donorInfo);
 
@@ -49,7 +48,7 @@ export default function DonationRequestDetails() {
   const donorMutation = useMutation({
     mutationFn: (donorInfo) =>
       axiosBase
-        .patch(`/donate/${donorInfo.donationRequestId}`, donorInfo) // ✅ send donorInfo as body
+        .patch(`/donate/${donorInfo.donationRequestId}`, donorInfo)
         .then((res) => res.data),
     onSuccess: (res) => {
       console.log(res);

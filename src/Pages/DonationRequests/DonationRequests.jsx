@@ -26,7 +26,7 @@ export default function DonationRequests() {
   useEffect(() => {
     axiosBase
       .get(
-        `/all-donation-requests?status=pending&limit=${itemPerPage}&skip=${
+        `/all-donation-requests-front?status=pending&limit=${itemPerPage}&skip=${
           currentPage * itemPerPage
         }`
       )
