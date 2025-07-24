@@ -1,11 +1,11 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
-import useAxiosBase from "../Hooks/useAxiosBase";
+import useAxiosBase from "../hooks/useAxiosBase";
 import Swal from "sweetalert2";
 import { FaTrashAlt } from "react-icons/fa";
-import Loading from "../Components/Utilities/Loading";
-import useAxiosSecure from "../Hooks/useAxiosSecure";
-import useAuth from "../Hooks/useAuth";
+import Loading from "../components/Utilities/Loading";
+import useAxiosSecure from "../hooks/useAxiosSecure";
+import useAuth from "../hooks/useAuth";
 
 const Users = () => {
   const axiosBase = useAxiosBase();

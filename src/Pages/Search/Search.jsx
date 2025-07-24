@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import useAxiosBase from "../../Hooks/useAxiosBase";
-import Loading from "../../Components/Utilities/Loading";
+import useAxiosBase from "../../hooks/useAxiosBase";
+import Loading from "../../components/Utilities/Loading";
 import { FaSearch } from "react-icons/fa";
 
 export default function Search() {

@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import NotyfContext from "../Notyf/NotyfContext";
+import NotyfContext from "../notyf/NotyfContext";
 
 const useNotification = () => {
   const notyf = useContext(NotyfContext);

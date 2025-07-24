@@ -1,12 +1,12 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import { FaEdit, FaTrash, FaEye } from "react-icons/fa";
-import useAxiosBase from "../../Hooks/useAxiosBase";
+import useAxiosBase from "../../hooks/useAxiosBase";
 import { Link } from "react-router";
 import Swal from "sweetalert2";
-import Loading from "../../Components/Utilities/Loading";
-import useAxiosSecure from "../../Hooks/useAxiosSecure";
-import useUserRole from "../../Hooks/useUserRole";
+import Loading from "../../components/Utilities/Loading";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useUserRole from "../../hooks/useUserRole";
 
 export default function AllBlogs() {
   const axiosBase = useAxiosBase();
@@ -170,7 +170,7 @@ export default function AllBlogs() {
                   className="w-16 h-16 rounded object-cover"
                 />
               </td>
-              <td className="font-medium">{blog.title}</td>
+              <td className="font-medium text-lg">{blog.title}</td>
               <td>{blog.author}</td>
               <td>{blog.author_email}</td>
               <td>{new Date(blog.creation_date).toLocaleDateString()}</td>

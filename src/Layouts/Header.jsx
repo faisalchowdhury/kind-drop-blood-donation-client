@@ -1,9 +1,9 @@
 import React, { useRef, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router";
-import Logo from "../Components/Utilities/Logo";
+import Logo from "../components/Utilities/Logo";
 import LogoLight from "../assets/Logos/logo-light.png";
-import useAuth from "../Hooks/useAuth";
-import useNotification from "../Hooks/useNotification";
+import useAuth from "../hooks/useAuth";
+import useNotification from "../hooks/useNotification";
 
 const Header = () => {
   const { user } = useAuth();
@@ -46,7 +46,7 @@ const Header = () => {
 
   return (
     <div className="sticky top-0 z-20 bg-white border-b border-[#ff202036]">
-      <div className="navbar bg-base-100 max-w-[1400px] mx-auto">
+      <div className="navbar bg-base-100 max-w-[1400px] mx-auto px-5 2xl:px-0">
         <div className="navbar-start">
           <div className="dropdown ">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">

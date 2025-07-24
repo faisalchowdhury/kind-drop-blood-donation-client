@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 import LogoDark from "../assets/Logos/logo-dark.png";
-import Logo from "../Components/Utilities/Logo";
+import Logo from "../components/Utilities/Logo";
 import {
   FaFacebookF,
   FaTwitter,

@@ -4,10 +4,10 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router";
 import Swal from "sweetalert2";
 import axios from "axios";
-import useAxiosBase from "../Hooks/useAxiosBase";
-import useAuth from "../Hooks/useAuth";
-import Loading from "../Components/Utilities/Loading";
-import useAxiosSecure from "../Hooks/useAxiosSecure";
+import useAxiosBase from "../hooks/useAxiosBase";
+import useAuth from "../hooks/useAuth";
+import Loading from "../components/Utilities/Loading";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 export default function EditDonationRequest() {
   const { id } = useParams();

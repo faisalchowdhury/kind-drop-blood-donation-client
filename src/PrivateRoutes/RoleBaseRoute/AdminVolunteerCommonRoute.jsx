@@ -1,7 +1,7 @@
 import React from "react";
-import useAuth from "../../Hooks/useAuth";
-import useUserRole from "../../Hooks/useUserRole";
-import Loading from "../../Components/Utilities/Loading";
+import useAuth from "../../hooks/useAuth";
+import useUserRole from "../../hooks/useUserRole";
+import Loading from "../../components/Utilities/Loading";
 import { Navigate } from "react-router";
 
 const AdminVolunteerCommonRoute = () => {

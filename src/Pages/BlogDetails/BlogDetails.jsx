@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { FaUser } from "react-icons/fa";
 import { MdDateRange } from "react-icons/md";
-import useAxiosBase from "../../Hooks/useAxiosBase";
+import useAxiosBase from "../../hooks/useAxiosBase";
 
 export default function BlogDetails() {
   const { id } = useParams();
@@ -28,7 +28,7 @@ export default function BlogDetails() {
       {/* Author & Date */}
       <div className="flex flex-wrap gap-4 text-gray-500 mb-6 text-sm items-center">
         <div className="flex items-center gap-2">
-          <FaUser /> {blog.author || 'anonymous'}
+          <FaUser /> {blog.author || "anonymous"}
         </div>
         <div className="flex items-center gap-2">
           <MdDateRange />{" "}
@@ -39,13 +39,10 @@ export default function BlogDetails() {
       {/* Title */}
       <h1 className="text-3xl font-bold text-gray-800 mb-3">{blog.title}</h1>
 
-      
-
       {/* Description */}
       <div
         className="prose max-w-none"
-        dangerouslySetInnerHTML={{ __html: blog.description }}
-      ></div>
+        dangerouslySetInnerHTML={{ __html: blog.description }}></div>
     </div>
   );
 }

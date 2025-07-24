@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router";
-import useAxiosBase from "../../Hooks/useAxiosBase";
-import Loading from "../../Components/Utilities/Loading";
-import Fallback from "../../Components/Fallback/Fallback";
+import useAxiosBase from "../../hooks/useAxiosBase";
+import Loading from "../../components/Utilities/Loading";
+import Fallback from "../../components/Fallback/Fallback";
 
 export default function AllBlogs() {
   const axiosBase = useAxiosBase();

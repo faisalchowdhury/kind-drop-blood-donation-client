@@ -5,10 +5,10 @@ import registerAnimation from "../../assets/Lottie/registration.json";
 import { useForm } from "react-hook-form";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import useAuth from "../../Hooks/useAuth";
+import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
-import useAxiosBase from "../../Hooks/useAxiosBase";
-import useNotification from "../../Hooks/useNotification";
+import useAxiosBase from "../../hooks/useAxiosBase";
+import useNotification from "../../hooks/useNotification";
 export default function Registration() {
   const { createAccount, updateUserProfile, user } = useAuth();
   const [currentDistrict, setCurrentDistrict] = useState([]);

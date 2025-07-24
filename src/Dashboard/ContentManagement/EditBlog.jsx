@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import RichTextEditor from "./Component/RichTextEditor";
 import axios from "axios";
-import useAuth from "../../Hooks/useAuth";
+import useAuth from "../../hooks/useAuth";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import useAxiosBase from "../../Hooks/useAxiosBase";
+import useAxiosBase from "../../hooks/useAxiosBase";
 import Swal from "sweetalert2";
 import { useParams } from "react-router";
 

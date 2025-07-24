@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import useAxiosBase from "../../Hooks/useAxiosBase";
+import useAxiosBase from "../../hooks/useAxiosBase";
 import { Link } from "react-router";
-import Fallback from "../../Components/Fallback/Fallback";
+import Fallback from "../../components/Fallback/Fallback";
 
 export default function DonationRequests() {
   const axiosBase = useAxiosBase();

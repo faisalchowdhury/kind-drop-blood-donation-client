@@ -1,6 +1,6 @@
 import React from "react";
 
-import useAxiosBase from "../../Hooks/useAxiosBase";
+import useAxiosBase from "../../hooks/useAxiosBase";
 import { useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import { FaUser } from "react-icons/fa";

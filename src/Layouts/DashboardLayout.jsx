@@ -8,7 +8,7 @@ import {
   FiSettings,
   FiPlusCircle,
 } from "react-icons/fi";
-import Logo from "../Components/Utilities/Logo";
+import Logo from "../components/Utilities/Logo";
 import logoLight from "../assets/Logos/logo-light.png";
 import { FaUsersGear } from "react-icons/fa6";
 import {
@@ -18,10 +18,10 @@ import {
   FaPowerOff,
   FaTint,
 } from "react-icons/fa";
-import useUserRole from "../Hooks/useUserRole";
-import Loading from "../Components/Utilities/Loading";
-import useAuth from "../Hooks/useAuth";
-import useNotification from "../Hooks/useNotification";
+import useUserRole from "../hooks/useUserRole";
+import Loading from "../components/Utilities/Loading";
+import useAuth from "../hooks/useAuth";
+import useNotification from "../hooks/useNotification";
 export default function DashboardLayout() {
   const [isOpen, setIsOpen] = useState(false);
   const { userRole, roleLoading } = useUserRole();

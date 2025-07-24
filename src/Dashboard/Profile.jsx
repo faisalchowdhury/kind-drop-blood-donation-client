@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { FaEdit, FaSave } from "react-icons/fa";
-import useAuth from "../Hooks/useAuth";
-import useAxiosBase from "../Hooks/useAxiosBase";
+import useAuth from "../hooks/useAuth";
+import useAxiosBase from "../hooks/useAxiosBase";
 import axios from "axios";
 import Swal from "sweetalert2";
-import useAxiosSecure from "../Hooks/useAxiosSecure";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 export default function Profile() {
   const { user } = useAuth();

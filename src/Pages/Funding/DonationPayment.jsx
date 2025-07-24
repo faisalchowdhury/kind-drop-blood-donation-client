@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import Swal from "sweetalert2";
-import useAxiosBase from "../../Hooks/useAxiosBase";
-import useAuth from "../../Hooks/useAuth";
+import useAxiosBase from "../../hooks/useAxiosBase";
+import useAuth from "../../hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
-import Loading from "../../Components/Utilities/Loading";
+import Loading from "../../components/Utilities/Loading";
 
 export default function DonationPayment() {
   const stripe = useStripe();

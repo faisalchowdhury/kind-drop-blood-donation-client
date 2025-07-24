@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { useParams } from "react-router";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import useAxiosBase from "../../Hooks/useAxiosBase";
-import Loading from "../../Components/Utilities/Loading";
+import useAxiosBase from "../../hooks/useAxiosBase";
+import Loading from "../../components/Utilities/Loading";
 import axios from "axios";
-import useAuth from "../../Hooks/useAuth";
+import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
-import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 export default function DonationRequestDetails() {
   const { id } = useParams();

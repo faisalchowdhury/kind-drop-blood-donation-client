@@ -4,10 +4,10 @@ import { useQuery } from "@tanstack/react-query";
 
 import axios from "axios";
 
-import useAxiosBase from "../Hooks/useAxiosBase";
-import Loading from "../Components/Utilities/Loading";
-import useAuth from "../Hooks/useAuth";
-import useAxiosSecure from "../Hooks/useAxiosSecure";
+import useAxiosBase from "../hooks/useAxiosBase";
+import Loading from "../components/Utilities/Loading";
+import useAuth from "../hooks/useAuth";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 export default function ViewDonationRequestDetails() {
   const { id } = useParams();

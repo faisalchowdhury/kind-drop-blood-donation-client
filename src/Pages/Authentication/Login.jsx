@@ -1,9 +1,9 @@
 import { Link, Navigate, useNavigate } from "react-router";
 import Lottie from "lottie-react";
 import loginAnimation from "../../assets/Lottie/login.json";
-import useAuth from "../../Hooks/useAuth";
+import useAuth from "../../hooks/useAuth";
 import { useForm } from "react-hook-form";
-import useNotification from "../../Hooks/useNotification";
+import useNotification from "../../hooks/useNotification";
 
 export default function Login() {
   const { userLogin, user } = useAuth();

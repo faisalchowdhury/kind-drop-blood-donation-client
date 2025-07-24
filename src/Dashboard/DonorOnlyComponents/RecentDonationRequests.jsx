@@ -1,13 +1,13 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import useAxiosBase from "../../Hooks/useAxiosBase";
-import Loading from "../../Components/Utilities/Loading";
-import useAuth from "../../Hooks/useAuth";
+import useAxiosBase from "../../hooks/useAxiosBase";
+import Loading from "../../components/Utilities/Loading";
+import useAuth from "../../hooks/useAuth";
 import { Link } from "react-router";
 import Swal from "sweetalert2";
-import Fallback from "../../Components/Fallback/Fallback";
-import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import Fallback from "../../components/Fallback/Fallback";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const RecentDonationRequests = () => {
   const [requests, setRequests] = useState([]);

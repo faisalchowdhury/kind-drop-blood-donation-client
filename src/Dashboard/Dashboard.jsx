@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { FaUsersLine } from "react-icons/fa6";
 import { BiSolidDonateBlood, BiSolidDonateHeart } from "react-icons/bi";
 import { FaHandsHelping } from "react-icons/fa";
-import useAxiosBase from "../Hooks/useAxiosBase";
+import useAxiosBase from "../hooks/useAxiosBase";
 import { useQuery } from "@tanstack/react-query";
-import useAuth from "../Hooks/useAuth";
-import RecentDonationRequests from "./DonorOnlyComponents/RecentDonationRequests";
-import useUserRole from "../Hooks/useUserRole";
-import useAxiosSecure from "../Hooks/useAxiosSecure";
+import useAuth from "../hooks/useAuth";
+import RecentDonationRequests from "./DonorOnlycomponents/RecentDonationRequests";
+import useUserRole from "../hooks/useUserRole";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 const Dashboard = () => {
   const [fundCount, setFundCount] = useState(0);
